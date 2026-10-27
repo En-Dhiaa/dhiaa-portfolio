@@ -1,7 +1,7 @@
 import { PortfolioData } from '../types';
 
 export const initialPortfolioData: PortfolioData = {
-  heroImage: './images/hero-portrait-fade.webp',
+  heroImage: './images/hero-portrait-clean.webp',
   avatarImage: './images/avatar.webp',
   aboutImage: './images/about-portrait.webp',
   profile: {
@@ -49,6 +49,9 @@ export const initialPortfolioData: PortfolioData = {
     phone: '+967 777117683',
     whatsapp: '967777117683',
     github: 'https://github.com/En-Dhiaa',
+    facebook: 'https://facebook.com/eng.dhiaa.alhmiri',
+    instagram: 'https://instagram.com/en_dhiaa',
+    defaultFont: 'Cairo',
     stats: {
       yearsExperience: 5,
       completedProjects: 18,
@@ -78,7 +81,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['Flutter', 'Dart', 'SQLite', 'Clean Architecture', 'Multi-Tier Backup', 'UI/UX'],
       githubUrl: 'https://github.com/En-Dhiaa/hisabi',
-      coverImage: './images/showcase-portrait.webp',
+      coverImage: './images/projects/hisabi-cover.webp',
       isFeatured: true,
       status: 'Production',
       highlights: {
@@ -118,7 +121,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js Arch', 'Bilingual', 'Pharma Operations'],
       githubUrl: 'https://github.com/En-Dhiaa/umco-pharma',
-      coverImage: './images/about-portrait.webp',
+      coverImage: './images/projects/umco-cover.webp',
       isFeatured: true,
       status: 'Production',
       highlights: {
@@ -156,7 +159,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['TypeScript', 'PWA', 'SVG Manipulation', 'Tailwind CSS', 'Color Theory', 'Graphic Design'],
       githubUrl: 'https://github.com/En-Dhiaa/Brand-testing',
-      coverImage: './images/hero-portrait.webp',
+      coverImage: './images/projects/brand-testing-cover.webp',
       isFeatured: true,
       status: 'Completed',
       highlights: {
@@ -194,7 +197,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['React', 'TypeScript', 'Tailwind CSS', 'Responsive UI', 'Search Engine'],
       githubUrl: 'https://github.com/En-Dhiaa/CarX',
-      coverImage: './images/showcase-portrait.webp',
+      coverImage: './images/projects/carx-cover.webp',
       isFeatured: true,
       status: 'Completed'
     },
@@ -220,7 +223,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['Python', 'OpenCV', 'OCR Engine', 'Layout Analysis', 'Desktop GUI'],
       githubUrl: 'https://github.com/En-Dhiaa/PharmaLeaf-AI',
-      coverImage: './images/about-portrait.webp',
+      coverImage: './images/projects/pharmaleaf-ai-cover.webp',
       isFeatured: true,
       status: 'Completed'
     },
@@ -246,7 +249,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['Flutter', 'ASP.NET Core 8', 'Clean Architecture', 'Tailwind CSS', 'ERP System'],
       githubUrl: 'https://github.com/En-Dhiaa/AgricultureMarketplace',
-      coverImage: './images/hero-portrait.webp',
+      coverImage: './images/projects/agriculture-erp-cover.webp',
       isFeatured: true,
       status: 'Completed'
     },
@@ -272,7 +275,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['Three.js', 'WebGL', '3D Graphics', 'Packaging Design', 'Canvas'],
       githubUrl: 'https://github.com/En-Dhiaa/formora-3d',
-      coverImage: './images/showcase-portrait.webp',
+      coverImage: './images/projects/formora-3d-cover.webp',
       isFeatured: false,
       status: 'Completed'
     },
@@ -298,7 +301,7 @@ export const initialPortfolioData: PortfolioData = {
       },
       tags: ['TypeScript', 'Canvas API', 'Print Standards', 'PDF Generation'],
       githubUrl: 'https://github.com/En-Dhiaa/pharmaleaf-studio',
-      coverImage: './images/about-portrait.webp',
+      coverImage: './images/projects/pharmaleaf-studio-cover.webp',
       isFeatured: false,
       status: 'Completed'
     }

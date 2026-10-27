@@ -393,6 +393,32 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     />
                   </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
+                      رابط Facebook
+                    </label>
+                    <input 
+                      type="text"
+                      dir="ltr"
+                      value={editProfile.facebook || ''}
+                      onChange={(e) => setEditProfile({ ...editProfile, facebook: e.target.value })}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                    />
+                  </div>
+
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.82rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
+                      رابط Instagram
+                    </label>
+                    <input 
+                      type="text"
+                      dir="ltr"
+                      value={editProfile.instagram || ''}
+                      onChange={(e) => setEditProfile({ ...editProfile, instagram: e.target.value })}
+                      style={{ width: '100%', padding: '0.65rem', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--bg-main)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -599,3 +625,4 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
     </div>
   );
 };
+

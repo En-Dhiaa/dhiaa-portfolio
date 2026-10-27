@@ -1,10 +1,11 @@
 import React from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import { Mail, MessageSquare, ArrowUp, Heart, Shield } from 'lucide-react';
+import { Mail, MessageSquare, ArrowUp, Eye, Users } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
+import { FacebookIcon, InstagramIcon } from './SocialIcons';
 
 export const Footer: React.FC = () => {
-  const { locale, data } = usePortfolio();
+  const { locale, data, visitorCount } = usePortfolio();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -17,58 +18,60 @@ export const Footer: React.FC = () => {
       style={{
         backgroundColor: 'var(--bg-main)',
         borderTop: '1px solid var(--border-subtle)',
-        paddingTop: '4rem',
-        paddingBottom: '2.5rem'
+        paddingTop: '3.5rem',
+        paddingBottom: '2rem'
       }}
     >
       <div className="container">
         <div 
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '2.5rem',
-            paddingBottom: '3rem',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '2rem',
+            paddingBottom: '2.5rem',
             borderBottom: '1px solid var(--border-subtle)'
           }}
         >
           {/* Identity Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
               <img 
                 src={data.avatarImage} 
                 alt={data.profile.displayName[locale]} 
                 style={{
-                  width: '45px',
-                  height: '45px',
+                  width: '40px',
+                  height: '40px',
                   borderRadius: '50%',
                   objectFit: 'cover',
                   border: '2px solid var(--accent)'
                 }}
               />
               <div>
-                <div style={{ fontWeight: 800, fontSize: '1.1rem', color: 'var(--text-primary)' }}>
+                <div style={{ fontWeight: 800, fontSize: '0.98rem', color: 'var(--text-primary)' }}>
                   {data.profile.name[locale]}
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 600 }}>
+                <div style={{ fontSize: '0.74rem', color: 'var(--accent)', fontWeight: 600 }}>
                   {data.profile.title[locale]}
                 </div>
               </div>
             </div>
 
-            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+            <p style={{ fontSize: '0.84rem', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
               {data.profile.shortBio[locale]}
             </p>
 
-            <div style={{ display: 'flex', gap: '0.65rem' }}>
+            {/* Social Icons Row */}
+            <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
               <a 
                 href={data.profile.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-secondary"
-                style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="GitHub"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="GitHub Profile"
+                title="GitHub"
               >
-                <GithubIcon size={18} />
+                <GithubIcon size={16} />
               </a>
 
               <a 
@@ -76,29 +79,55 @@ export const Footer: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-secondary"
-                style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
                 aria-label="WhatsApp"
+                title="WhatsApp"
               >
-                <MessageSquare size={18} color="#10B981" />
+                <MessageSquare size={16} color="#10B981" />
+              </a>
+
+              <a 
+                href={data.profile.facebook || 'https://facebook.com/eng.dhiaa.alhmiri'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="Facebook Profile"
+                title="Facebook"
+              >
+                <FacebookIcon size={16} style={{ color: '#1877F2' }} />
+              </a>
+
+              <a 
+                href={data.profile.instagram || 'https://instagram.com/en_dhiaa'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="Instagram Profile"
+                title="Instagram"
+              >
+                <InstagramIcon size={16} style={{ color: '#E1306C' }} />
               </a>
 
               <a 
                 href={`mailto:${data.profile.email}`}
                 className="btn btn-secondary"
-                style={{ padding: '0.5rem', borderRadius: 'var(--radius-sm)' }}
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
                 aria-label="Email"
+                title="Email"
               >
-                <Mail size={18} color="var(--accent)" />
+                <Mail size={16} color="var(--accent)" />
               </a>
             </div>
           </div>
 
           {/* Quick Links Column */}
           <div>
-            <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem' }}>
               {locale === 'ar' ? 'أقسام الموقع' : 'Navigation'}
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', fontSize: '0.92rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem', fontSize: '0.84rem' }}>
               <a href="#about" style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}>
                 {locale === 'ar' ? 'السيرة الذاتية وعن المهندس' : 'Professional Biography'}
               </a>
@@ -117,30 +146,73 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Academic & Professional Credibility Column */}
+          {/* Live Visitor Counter & Site Stats Column */}
           <div>
-            <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
-              {locale === 'ar' ? 'الاعتمادات والمقر' : 'Location & Credentials'}
+            <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem' }}>
+              {locale === 'ar' ? 'إحصائيات وزوار الموقع' : 'Site Visits & Status'}
             </h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-              <div>
-                <strong style={{ color: 'var(--text-primary)' }}>
-                  {locale === 'ar' ? 'المقر الدائم:' : 'Location:'}
-                </strong>{' '}
-                {data.profile.location[locale]}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
+              
+              {/* Elegant Visitor Counter Widget */}
+              <div 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.85rem',
+                  padding: '0.75rem 1rem',
+                  borderRadius: 'var(--radius-md)',
+                  backgroundColor: 'var(--bg-elevated)',
+                  border: '1px solid var(--border-hover)',
+                  width: 'fit-content'
+                }}
+              >
+                <div 
+                  style={{
+                    width: '36px',
+                    height: '36px',
+                    borderRadius: '10px',
+                    backgroundColor: 'rgba(var(--accent-rgb), 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--accent)'
+                  }}
+                >
+                  <Eye size={18} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                    {locale === 'ar' ? 'إجمالي زيارات الموقع' : 'Total Site Visitors'}
+                  </div>
+                  <div 
+                    style={{ 
+                      fontSize: '1.25rem', 
+                      fontWeight: 900, 
+                      color: 'var(--text-primary)', 
+                      letterSpacing: '0.04em' 
+                    }}
+                    dir="ltr"
+                  >
+                    {visitorCount.toLocaleString()}
+                  </div>
+                </div>
               </div>
-              <div>
-                <strong style={{ color: 'var(--text-primary)' }}>
-                  {locale === 'ar' ? 'المؤهل الأكاديمي:' : 'Degree:'}
-                </strong>{' '}
-                {locale === 'ar' ? 'بكالوريوس تقنية معلومات — جامعة الحكمة' : 'B.S. Information Technology — Al-Hikma Univ.'}
+
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                <div>
+                  <strong style={{ color: 'var(--text-primary)' }}>
+                    {locale === 'ar' ? 'المقر:' : 'Location:'}
+                  </strong>{' '}
+                  {data.profile.location[locale]}
+                </div>
+                <div style={{ marginTop: '0.3rem' }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>
+                    {locale === 'ar' ? 'المؤهل:' : 'Degree:'}
+                  </strong>{' '}
+                  {locale === 'ar' ? 'بكالوريوس IT — جامعة الحكمة' : 'B.S. IT — Al-Hikma Univ.'}
+                </div>
               </div>
-              <div>
-                <strong style={{ color: 'var(--text-primary)' }}>
-                  {locale === 'ar' ? 'اللغات:' : 'Languages:'}
-                </strong>{' '}
-                {locale === 'ar' ? 'العربية (الأم)، الإنجليزية (طلاقة كاملة)' : 'Arabic (Native), English (Fluent)'}
-              </div>
+
             </div>
           </div>
 
@@ -149,13 +221,13 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div 
           style={{
-            paddingTop: '2rem',
+            paddingTop: '1.5rem',
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
             justifyContent: 'space-between',
-            gap: '1rem',
-            fontSize: '0.85rem',
+            gap: '0.75rem',
+            fontSize: '0.78rem',
             color: 'var(--text-muted)'
           }}
         >
@@ -163,20 +235,21 @@ export const Footer: React.FC = () => {
             © {currentYear} {data.profile.name[locale]}. {locale === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.'}
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <span>
-              {locale === 'ar' ? 'صُمم وبُرمج بأعلى معايير الويب' : 'Engineered with Modern Web Standards'}
+              {locale === 'ar' ? 'صُمم وبُرمج بأعلى معايير الويب الحديثة' : 'Engineered with Modern Web Standards'}
             </span>
             <button
               onClick={scrollToTop}
               className="btn btn-secondary"
               style={{
-                padding: '0.4rem 0.65rem',
+                padding: '0.35rem 0.55rem',
                 borderRadius: 'var(--radius-sm)'
               }}
               aria-label="Back to top"
+              title={locale === 'ar' ? 'الرجوع للأعلى' : 'Back to top'}
             >
-              <ArrowUp size={16} />
+              <ArrowUp size={14} />
             </button>
           </div>
         </div>

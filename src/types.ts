@@ -23,6 +23,9 @@ export interface ProfileInfo {
   phone: string;
   whatsapp: string;
   github: string;
+  facebook?: string;
+  instagram?: string;
+  defaultFont?: string;
   stats: {
     yearsExperience: number;
     completedProjects: number;
@@ -106,3 +109,4 @@ export interface PortfolioData {
   avatarImage: string;
   aboutImage: string;
 }
+

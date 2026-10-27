@@ -23,3 +23,4 @@ export const GithubIcon: React.FC<{ size?: number; className?: string; style?: R
     </svg>
   );
 };
+

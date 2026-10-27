@@ -11,8 +11,12 @@ import {
   MapPin, 
   Award,
   Layers,
-  ChevronDown
+  ChevronDown,
+  Mail,
+  MessageSquare
 } from 'lucide-react';
+import { GithubIcon } from './GithubIcon';
+import { FacebookIcon, InstagramIcon } from './SocialIcons';
 
 interface HeroProps {
   onOpenCV: () => void;
@@ -37,10 +41,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
     <section 
       style={{
         position: 'relative',
-        paddingTop: '6.5rem',
-        paddingBottom: '3.5rem',
+        paddingTop: '5.5rem',
+        paddingBottom: '3rem',
         overflow: 'hidden',
-        minHeight: '92vh',
+        minHeight: '88vh',
         display: 'flex',
         alignItems: 'center'
       }}
@@ -52,8 +56,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           top: '-15%',
           right: locale === 'ar' ? 'auto' : '-10%',
           left: locale === 'ar' ? '-10%' : 'auto',
-          width: '520px',
-          height: '520px',
+          width: '450px',
+          height: '450px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
           filter: 'blur(50px)',
@@ -67,8 +71,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           bottom: '5%',
           right: locale === 'ar' ? '5%' : 'auto',
           left: locale === 'ar' ? 'auto' : '5%',
-          width: '400px',
-          height: '400px',
+          width: '350px',
+          height: '350px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
           filter: 'blur(60px)',
@@ -82,20 +86,20 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           className="hero-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             alignItems: 'center',
-            gap: '3rem'
+            gap: '2.5rem'
           }}
         >
           
           {/* Text Introduction Column */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.4rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.15rem' }}>
             
             {/* Status Pill */}
             <div style={{ display: 'inline-flex', alignItems: 'center', width: 'fit-content' }}>
               <span className="section-tag">
-                <Sparkles size={14} />
-                <span>{locale === 'ar' ? 'الموقع المهني والملف الشخصي المعتمد' : 'Official Professional Portfolio'}</span>
+                <Sparkles size={13} />
+                <span>{locale === 'ar' ? 'الموقع المهني والملف المعتمد' : 'Official Professional Portfolio'}</span>
               </span>
             </div>
 
@@ -103,11 +107,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
             <div>
               <h1 
                 style={{
-                  fontSize: 'clamp(2.2rem, 5vw, 3.4rem)',
+                  fontSize: 'clamp(1.75rem, 3.8vw, 2.5rem)',
                   fontWeight: 900,
-                  lineHeight: 1.2,
-                  marginBottom: '0.6rem',
-                  letterSpacing: '-0.02em'
+                  lineHeight: 1.25,
+                  marginBottom: '0.45rem',
+                  letterSpacing: '-0.02em',
+                  color: 'var(--text-primary)'
                 }}
               >
                 {data.profile.name[locale]}
@@ -116,7 +121,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               <div 
                 className="gradient-text"
                 style={{
-                  fontSize: 'clamp(1.15rem, 2.5vw, 1.55rem)',
+                  fontSize: 'clamp(0.98rem, 2vw, 1.25rem)',
                   fontWeight: 700,
                   lineHeight: 1.35
                 }}
@@ -130,19 +135,19 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.6rem 1.1rem',
+                gap: '0.55rem',
+                padding: '0.5rem 0.95rem',
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: 'var(--bg-elevated)',
                 border: '1px solid var(--border-subtle)',
                 width: 'fit-content',
-                fontSize: '0.96rem',
+                fontSize: '0.88rem',
                 fontWeight: 600,
                 color: 'var(--text-primary)',
                 transition: 'all 0.3s ease'
               }}
             >
-              <Layers size={18} color="var(--accent)" />
+              <Layers size={16} color="var(--accent)" />
               <span style={{ color: 'var(--text-muted)' }}>
                 {locale === 'ar' ? 'التخصص النشط:' : 'Specialty:'}
               </span>
@@ -161,10 +166,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
             {/* Short Bio */}
             <p 
               style={{
-                fontSize: '1.08rem',
+                fontSize: '0.95rem',
                 color: 'var(--text-secondary)',
-                lineHeight: 1.75,
-                maxWidth: '600px'
+                lineHeight: 1.7,
+                maxWidth: '560px'
               }}
             >
               {data.profile.shortBio[locale]}
@@ -176,17 +181,17 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 alignItems: 'center',
-                gap: '1.25rem',
-                fontSize: '0.92rem',
+                gap: '1rem',
+                fontSize: '0.85rem',
                 color: 'var(--text-muted)'
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                <MapPin size={16} color="var(--accent)" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <MapPin size={15} color="var(--accent)" />
                 <span>{data.profile.location[locale]}</span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                <CheckCircle2 size={16} color="#10B981" />
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem' }}>
+                <CheckCircle2 size={15} color="#10B981" />
                 <span>{locale === 'ar' ? 'متاح للتوظيف والتعاقد' : 'Open for Opportunities'}</span>
               </div>
             </div>
@@ -198,17 +203,17 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                 display: 'flex',
                 flexWrap: 'wrap',
                 alignItems: 'center',
-                gap: '0.85rem',
-                paddingTop: '0.5rem'
+                gap: '0.65rem',
+                paddingTop: '0.35rem'
               }}
             >
               <a href="#projects" className="btn btn-primary">
                 <span>{locale === 'ar' ? 'استكشف أعمالي' : 'Explore My Work'}</span>
-                <ArrowIcon size={18} />
+                <ArrowIcon size={16} />
               </a>
 
               <button onClick={onOpenCV} className="btn btn-secondary">
-                <Download size={18} />
+                <Download size={16} />
                 <span>{locale === 'ar' ? 'تحميل السيرة الذاتية' : 'Download CV'}</span>
               </button>
 
@@ -217,71 +222,129 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               </a>
             </div>
 
+            {/* Quick Social Icons Row */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', paddingTop: '0.2rem' }}>
+              <a
+                href={data.profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="GitHub Profile"
+                title="GitHub"
+              >
+                <GithubIcon size={16} />
+              </a>
+              <a
+                href={`https://wa.me/${data.profile.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="WhatsApp"
+                title="WhatsApp"
+              >
+                <MessageSquare size={16} color="#10B981" />
+              </a>
+              <a
+                href={data.profile.facebook || 'https://facebook.com/eng.dhiaa.alhmiri'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="Facebook Profile"
+                title="Facebook"
+              >
+                <FacebookIcon size={16} style={{ color: '#1877F2' }} />
+              </a>
+              <a
+                href={data.profile.instagram || 'https://instagram.com/en_dhiaa'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="Instagram Profile"
+                title="Instagram"
+              >
+                <InstagramIcon size={16} style={{ color: '#E1306C' }} />
+              </a>
+              <a
+                href={`mailto:${data.profile.email}`}
+                className="btn btn-secondary"
+                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
+                aria-label="Email"
+                title="Email"
+              >
+                <Mail size={16} color="var(--accent)" />
+              </a>
+            </div>
+
             {/* Quick Stats Grid */}
             <div 
               style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '1rem',
-                paddingTop: '1.5rem',
+                gap: '0.75rem',
+                paddingTop: '1.25rem',
                 borderTop: '1px solid var(--border-subtle)',
-                maxWidth: '540px'
+                maxWidth: '480px'
               }}
             >
               <div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--accent)' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--accent)' }}>
                   +{data.profile.stats.yearsExperience}
                 </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                   {locale === 'ar' ? 'سنوات خبرة مهنية' : 'Years Experience'}
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-primary)' }}>
                   +{data.profile.stats.completedProjects}
                 </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
                   {locale === 'ar' ? 'مشروعاً ومنصة منجزة' : 'Delivered Projects'}
                 </div>
               </div>
 
               <div>
-                <div style={{ fontSize: '1.75rem', fontWeight: 900, color: 'var(--text-primary)' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--text-primary)' }}>
                   +{data.profile.stats.repositoriesCount}
                 </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
-                  {locale === 'ar' ? 'مستودع كود على GitHub' : 'GitHub Repositories'}
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                  {locale === 'ar' ? 'مستودع كود على GitHub' : 'GitHub Repos'}
                 </div>
               </div>
             </div>
 
           </div>
 
-          {/* Portrait Composition Column */}
+          {/* Portrait Composition Column - Clean, Theme-Aware & Natural */}
           <div 
             style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              position: 'relative'
+              position: 'relative',
+              padding: '0.5rem'
             }}
           >
-            {/* Visual Frame & Glow */}
+            {/* Visual Frame - Seamless in both dark and light modes */}
             <div 
               style={{
                 position: 'relative',
                 width: '100%',
-                maxWidth: '430px',
+                maxWidth: '380px',
                 aspectRatio: '4 / 5',
-                borderRadius: '28px',
+                borderRadius: '24px',
                 overflow: 'hidden',
                 boxShadow: 'var(--shadow-lg)',
-                border: '2px solid rgba(var(--accent-rgb), 0.25)',
-                background: 'linear-gradient(180deg, rgba(24, 30, 41, 0.4) 0%, rgba(16, 20, 29, 0.95) 100%)'
+                border: '2px solid var(--border-hover)',
+                backgroundColor: 'var(--bg-elevated)'
               }}
             >
-              {/* Actual Subject Portrait - Authentic with zero distortion */}
+              {/* Authentic Subject Portrait - Clean & Crisp */}
               <img 
                 src={data.heroImage} 
                 alt={data.profile.name[locale]}
@@ -290,42 +353,32 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                   height: '100%',
                   objectFit: 'cover',
                   objectPosition: 'center top',
-                  display: 'block',
-                  filter: 'contrast(1.03) brightness(1.02)'
+                  display: 'block'
                 }} 
-              />
-
-              {/* Bottom Vignette Overlay */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(to top, var(--bg-main) 0%, transparent 35%)',
-                  pointerEvents: 'none'
-                }}
               />
 
               {/* Verified Badge Overlay (Top Corner) */}
               <div 
                 style={{
                   position: 'absolute',
-                  top: '1.25rem',
-                  right: locale === 'ar' ? '1.25rem' : 'auto',
-                  left: locale === 'ar' ? 'auto' : '1.25rem',
+                  top: '1rem',
+                  right: locale === 'ar' ? '1rem' : 'auto',
+                  left: locale === 'ar' ? 'auto' : '1rem',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.45rem',
-                  padding: '0.4rem 0.85rem',
+                  gap: '0.4rem',
+                  padding: '0.35rem 0.75rem',
                   borderRadius: 'var(--radius-full)',
-                  background: 'rgba(16, 20, 29, 0.85)',
+                  backgroundColor: 'var(--glass-bg)',
                   backdropFilter: 'blur(10px)',
-                  border: '1px solid rgba(255, 255, 255, 0.15)',
-                  fontSize: '0.8rem',
+                  border: '1px solid var(--border-subtle)',
+                  fontSize: '0.76rem',
                   fontWeight: 700,
-                  color: '#FFFFFF'
+                  color: 'var(--text-primary)',
+                  boxShadow: 'var(--shadow-sm)'
                 }}
               >
-                <Award size={15} color="#FBBF24" />
+                <Award size={14} color="#FBBF24" />
                 <span>{locale === 'ar' ? 'مهندس IT معتمد' : 'Verified IT Engineer'}</span>
               </div>
             </div>
@@ -335,26 +388,26 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               className="floating-anim"
               style={{
                 position: 'absolute',
-                bottom: '15px',
-                left: locale === 'ar' ? '-20px' : 'auto',
-                right: locale === 'ar' ? 'auto' : '-20px',
+                bottom: '8px',
+                left: locale === 'ar' ? '-10px' : 'auto',
+                right: locale === 'ar' ? 'auto' : '-10px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.85rem 1.25rem',
+                gap: '0.65rem',
+                padding: '0.7rem 1.05rem',
                 borderRadius: 'var(--radius-md)',
-                background: 'var(--bg-surface)',
+                backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-hover)',
                 boxShadow: 'var(--shadow-md)',
                 zIndex: 2,
-                maxWidth: '240px'
+                maxWidth: '220px'
               }}
             >
               <div 
                 style={{
-                  width: '42px',
-                  height: '42px',
-                  borderRadius: '10px',
+                  width: '38px',
+                  height: '38px',
+                  borderRadius: '9px',
                   background: 'var(--accent-gradient)',
                   display: 'flex',
                   alignItems: 'center',
@@ -363,14 +416,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                   flexShrink: 0
                 }}
               >
-                <Briefcase size={20} />
+                <Briefcase size={18} />
               </div>
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.92rem', color: 'var(--text-primary)' }}>
+                <div style={{ fontWeight: 800, fontSize: '0.85rem', color: 'var(--text-primary)' }}>
                   {locale === 'ar' ? 'تطوير Flutter وويب' : 'Flutter & Web Dev'}
                 </div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  {locale === 'ar' ? 'حلول معمارية نظيفة' : 'Clean Architecture'}
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                  {locale === 'ar' ? 'معمارية برمجية نظيفة' : 'Clean Architecture'}
                 </div>
               </div>
             </div>
@@ -379,22 +432,22 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
             <div 
               style={{
                 position: 'absolute',
-                top: '40px',
-                right: locale === 'ar' ? '-25px' : 'auto',
-                left: locale === 'ar' ? 'auto' : '-25px',
+                top: '25px',
+                right: locale === 'ar' ? '-15px' : 'auto',
+                left: locale === 'ar' ? 'auto' : '-15px',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.65rem',
-                padding: '0.65rem 1.1rem',
+                gap: '0.55rem',
+                padding: '0.55rem 0.95rem',
                 borderRadius: 'var(--radius-md)',
-                background: 'var(--bg-surface)',
+                backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
                 boxShadow: 'var(--shadow-sm)',
                 zIndex: 2
               }}
             >
-              <FolderGit2 size={18} color="var(--accent)" />
-              <div style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+              <FolderGit2 size={16} color="var(--accent)" />
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--text-primary)' }}>
                 github.com/En-Dhiaa
               </div>
             </div>
@@ -408,7 +461,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: '2.5rem'
+            paddingTop: '2rem'
           }}
         >
           <a 
@@ -417,17 +470,17 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: '0.3rem',
+              gap: '0.25rem',
               color: 'var(--text-muted)',
               textDecoration: 'none',
-              fontSize: '0.8rem',
+              fontSize: '0.78rem',
               transition: 'color 0.2s ease'
             }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}
           >
             <span>{locale === 'ar' ? 'اكتشف المزيد' : 'Scroll Down'}</span>
-            <ChevronDown size={18} className="floating-anim" />
+            <ChevronDown size={16} className="floating-anim" />
           </a>
         </div>
       </div>
