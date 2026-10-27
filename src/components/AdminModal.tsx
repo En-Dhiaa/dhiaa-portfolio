@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 import { usePortfolio, AVAILABLE_FONTS, THEME_COLOR_PRESETS } from '../context/PortfolioContext';
 import { ProjectItem } from '../types';
-import { 
-  Lock, 
-  X, 
-  Save, 
-  Trash2, 
-  Plus, 
-  Edit3, 
-  FolderGit2, 
-  Image as ImageIcon, 
-  Palette, 
-  Type, 
-  User, 
-  Mail, 
-  Download, 
-  Upload, 
-  CheckCircle2, 
+import {
+  Lock,
+  X,
+  Save,
+  Trash2,
+  Plus,
+  Edit3,
+  FolderGit2,
+  Image as ImageIcon,
+  Palette,
+  Type,
+  User,
+  Mail,
+  Download,
+  Upload,
+  CheckCircle2,
   RotateCcw,
   LogOut,
   ExternalLink,
@@ -30,22 +30,22 @@ interface AdminModalProps {
 }
 
 export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
-  const { 
-    locale, 
-    data, 
-    isAdmin, 
+  const {
+    locale,
+    data,
+    isAdmin,
     messages,
     currentFont,
     setFont,
     setThemeColor,
-    loginAdmin, 
-    logoutAdmin, 
-    updateData, 
+    loginAdmin,
+    logoutAdmin,
+    updateData,
     addProject,
     updateProject,
     deleteProject,
-    resetToDefaults, 
-    exportDataJSON, 
+    resetToDefaults,
+    exportDataJSON,
     importDataJSON,
     deleteMessage
   } = usePortfolio();
@@ -268,7 +268,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div 
+    <div
       style={{
         position: 'fixed',
         inset: 0,
@@ -282,7 +282,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
       }}
       onClick={onClose}
     >
-      <div 
+      <div
         className="card"
         style={{
           width: '100%',
@@ -296,7 +296,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Strip */}
-        <div 
+        <div
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -307,7 +307,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-            <div 
+            <div
               style={{
                 width: '36px',
                 height: '36px',
@@ -361,15 +361,15 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
         {/* Global Notification */}
         {saveSuccess && (
-          <div 
-            style={{ 
-              padding: '0.65rem 1rem', 
-              backgroundColor: 'rgba(16, 185, 129, 0.15)', 
-              color: '#10B981', 
-              borderRadius: 'var(--radius-sm)', 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: '0.5rem', 
+          <div
+            style={{
+              padding: '0.65rem 1rem',
+              backgroundColor: 'rgba(16, 185, 129, 0.15)',
+              color: '#10B981',
+              borderRadius: 'var(--radius-sm)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
               fontWeight: 600,
               fontSize: '0.88rem',
               marginBottom: '1rem'
@@ -391,7 +391,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
             </p>
 
             <div style={{ marginBottom: '1rem' }}>
-              <input 
+              <input
                 type="password"
                 required
                 value={password}
@@ -425,7 +425,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
         ) : (
           <div>
             {/* Admin Tabs */}
-            <div 
+            <div
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
@@ -503,8 +503,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <form onSubmit={handleSaveProject} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                        {isCreatingProject 
-                          ? (locale === 'ar' ? 'إضافة مشروع جديد' : 'Add New Project') 
+                        {isCreatingProject
+                          ? (locale === 'ar' ? 'إضافة مشروع جديد' : 'Add New Project')
                           : (locale === 'ar' ? `تعديل المشروع: ${editingProject?.title[locale]}` : `Edit Project: ${editingProject?.title[locale]}`)}
                       </h4>
                       <button
@@ -523,7 +523,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           عنوان المشروع (بالعربية) *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           required
                           value={projForm.title?.ar || ''}
@@ -535,7 +535,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           Project Title (English) *
                         </label>
-                        <input 
+                        <input
                           type="text"
                           required
                           value={projForm.title?.en || ''}
@@ -561,8 +561,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                               erp: { ar: 'أنظمة ERP', en: 'ERP Systems' },
                               tools: { ar: 'الأدوات والذكاء الاصطناعي', en: 'Tools & AI' }
                             };
-                            setProjForm({ 
-                              ...projForm, 
+                            setProjForm({
+                              ...projForm,
                               category: cat,
                               categoryLabel: labelMap[cat] || { ar: 'أخرى', en: 'Other' }
                             });
@@ -597,7 +597,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           رابط GitHub
                         </label>
-                        <input 
+                        <input
                           type="text"
                           dir="ltr"
                           value={projForm.githubUrl || ''}
@@ -611,7 +611,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           رابط المعاينة المباشرة (Demo / Live URL)
                         </label>
-                        <input 
+                        <input
                           type="text"
                           dir="ltr"
                           value={projForm.demoUrl || ''}
@@ -628,7 +628,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         صورة غلاف المشروع (Cover Image)
                       </label>
                       <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                        <input 
+                        <input
                           type="text"
                           dir="ltr"
                           value={projForm.coverImage || ''}
@@ -654,7 +654,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                         التقنيات المستخدمة (Tags - مفصولة بفواصل)
                       </label>
-                      <input 
+                      <input
                         type="text"
                         value={tagsInput}
                         onChange={(e) => setTagsInput(e.target.value)}
@@ -670,7 +670,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           ملخص مختصر (بالعربية)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={2}
                           value={projForm.summary?.ar || ''}
                           onChange={(e) => setProjForm({ ...projForm, summary: { ...projForm.summary!, ar: e.target.value } })}
@@ -681,7 +681,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           Summary (English)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={2}
                           dir="ltr"
                           value={projForm.summary?.en || ''}
@@ -697,7 +697,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           الشرح والتفاصيل الكاملة (بالعربية)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={3}
                           value={projForm.description?.ar || ''}
                           onChange={(e) => setProjForm({ ...projForm, description: { ...projForm.description!, ar: e.target.value } })}
@@ -708,7 +708,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           Full Description (English)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={3}
                           dir="ltr"
                           value={projForm.description?.en || ''}
@@ -724,7 +724,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           أهم مميزات المشروع (كل ميزة في سطر - بالعربية)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={3}
                           value={highlightsArInput}
                           onChange={(e) => setHighlightsArInput(e.target.value)}
@@ -736,7 +736,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                           Key Highlights (one per line - English)
                         </label>
-                        <textarea 
+                        <textarea
                           rows={3}
                           dir="ltr"
                           value={highlightsEnInput}
@@ -749,7 +749,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
                     {/* Featured Checkbox */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      <input 
+                      <input
                         type="checkbox"
                         id="isFeatured"
                         checked={projForm.isFeatured !== false}
@@ -766,8 +766,8 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                         <Save size={16} />
                         <span>{locale === 'ar' ? 'حفظ المشروع' : 'Save Project'}</span>
                       </button>
-                      <button 
-                        type="button" 
+                      <button
+                        type="button"
                         onClick={() => { setIsCreatingProject(false); setEditingProject(null); }}
                         className="btn btn-secondary"
                         style={{ padding: '0.65rem 1.25rem' }}
@@ -795,7 +795,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                       {data.projects.map((proj) => (
-                        <div 
+                        <div
                           key={proj.id}
                           style={{
                             display: 'flex',
@@ -872,7 +872,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
                         {locale === 'ar' ? 'تظهر في واجهة الموقع بدون إطار وبشكل مندمج في الصفحة.' : 'Appears in hero section frameless and transparent.'}
                       </p>
-                      <input 
+                      <input
                         type="text"
                         dir="ltr"
                         value={editImages.heroImage}
@@ -909,7 +909,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
                         {locale === 'ar' ? 'صورة الأفاتار المصغرة (Avatar - الهيدر والفوتر)' : 'Avatar Image (Header & Footer)'}
                       </label>
-                      <input 
+                      <input
                         type="text"
                         dir="ltr"
                         value={editImages.avatarImage}
@@ -936,7 +936,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                       <label style={{ display: 'block', fontSize: '0.88rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
                         {locale === 'ar' ? 'صورة قسم "عن المهندس" (About Section)' : 'About Section Portrait'}
                       </label>
-                      <input 
+                      <input
                         type="text"
                         dir="ltr"
                         value={editImages.aboutImage}
@@ -1008,7 +1008,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ fontSize: '0.82rem', color: 'var(--text-secondary)' }}>
                       {locale === 'ar' ? 'أو اختر كود لون مخصص:' : 'Or custom HEX color:'}
                     </label>
-                    <input 
+                    <input
                       type="color"
                       value={data.themeColor || '#8B7CFF'}
                       onChange={(e) => setThemeColor(e.target.value)}
@@ -1071,7 +1071,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       الاسم الكامل (بالعربية)
                     </label>
-                    <input 
+                    <input
                       type="text"
                       value={editProfile.name.ar}
                       onChange={(e) => setEditProfile({ ...editProfile, name: { ...editProfile.name, ar: e.target.value } })}
@@ -1083,7 +1083,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       Full Name (English)
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.name.en}
@@ -1096,7 +1096,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       المسمى المهني (العربية)
                     </label>
-                    <input 
+                    <input
                       type="text"
                       value={editProfile.title.ar}
                       onChange={(e) => setEditProfile({ ...editProfile, title: { ...editProfile.title, ar: e.target.value } })}
@@ -1108,7 +1108,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       Professional Title (English)
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.title.en}
@@ -1121,7 +1121,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       رقم الهاتف
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.phone}
@@ -1134,7 +1134,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       رقم WhatsApp الدولي
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.whatsapp}
@@ -1147,7 +1147,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       البريد الإلكتروني
                     </label>
-                    <input 
+                    <input
                       type="email"
                       dir="ltr"
                       value={editProfile.email}
@@ -1160,7 +1160,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       رابط GitHub
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.github}
@@ -1173,7 +1173,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       رابط صفحة Facebook
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.facebook || ''}
@@ -1186,7 +1186,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       رابط حساب Instagram
                     </label>
-                    <input 
+                    <input
                       type="text"
                       dir="ltr"
                       value={editProfile.instagram || ''}
@@ -1201,7 +1201,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                     النبذة المختصرة للواجهة (العربية)
                   </label>
-                  <textarea 
+                  <textarea
                     rows={2}
                     value={editProfile.shortBio.ar}
                     onChange={(e) => setEditProfile({ ...editProfile, shortBio: { ...editProfile.shortBio, ar: e.target.value } })}
@@ -1214,7 +1214,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                     النبذة المهنية الكاملة (لقسم عن المهندس)
                   </label>
-                  <textarea 
+                  <textarea
                     rows={3}
                     value={editProfile.fullBio.ar}
                     onChange={(e) => setEditProfile({ ...editProfile, fullBio: { ...editProfile.fullBio, ar: e.target.value } })}
@@ -1228,7 +1228,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       سنوات الخبرة
                     </label>
-                    <input 
+                    <input
                       type="number"
                       value={editProfile.stats.yearsExperience}
                       onChange={(e) => setEditProfile({ ...editProfile, stats: { ...editProfile.stats, yearsExperience: parseInt(e.target.value, 10) || 0 } })}
@@ -1239,7 +1239,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       المشاريع المنجزة
                     </label>
-                    <input 
+                    <input
                       type="number"
                       value={editProfile.stats.completedProjects}
                       onChange={(e) => setEditProfile({ ...editProfile, stats: { ...editProfile.stats, completedProjects: parseInt(e.target.value, 10) || 0 } })}
@@ -1250,7 +1250,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                     <label style={{ display: 'block', fontSize: '0.78rem', color: 'var(--text-secondary)', marginBottom: '0.3rem' }}>
                       مستودعات GitHub
                     </label>
-                    <input 
+                    <input
                       type="number"
                       value={editProfile.stats.repositoriesCount}
                       onChange={(e) => setEditProfile({ ...editProfile, stats: { ...editProfile.stats, repositoriesCount: parseInt(e.target.value, 10) || 0 } })}
@@ -1280,7 +1280,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                     {messages.map((msg) => (
-                      <div 
+                      <div
                         key={msg.id}
                         style={{
                           padding: '1rem',
@@ -1360,14 +1360,14 @@ export const AdminModal: React.FC<AdminModalProps> = ({ isOpen, onClose }) => {
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
                     {locale === 'ar' ? 'استعادة البيانات الأساسية الأصلية للموقع كما تم إعدادها لأول مرة.' : 'Reset all data back to the original portfolio plan defaults.'}
                   </p>
-                  <button 
+                  <button
                     onClick={() => {
                       if (confirm(locale === 'ar' ? 'هل أنت متأكد من استعادة بيانات الموقع الأصلية؟ ستفقد التعديلات المحلية غير المحفوظة.' : 'Are you sure you want to reset to defaults?')) {
                         resetToDefaults();
                         showNotification(locale === 'ar' ? 'تمت استعادة البيانات الافتراضية بنجاح!' : 'Defaults restored!');
                       }
-                    }} 
-                    className="btn btn-secondary" 
+                    }}
+                    className="btn btn-secondary"
                     style={{ padding: '0.55rem 1rem', fontSize: '0.84rem', color: '#EF4444' }}
                   >
                     <RotateCcw size={15} />

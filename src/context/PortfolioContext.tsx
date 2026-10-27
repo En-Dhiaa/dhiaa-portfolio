@@ -89,8 +89,11 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       if (saved) {
         const parsed = JSON.parse(saved);
         // Ensure new cutout image is picked up if still on old fade
-        if (!parsed.heroImage || parsed.heroImage.includes('fade')) {
+        if (!parsed.heroImage || parsed.heroImage.includes('fade') || parsed.heroImage.includes('clean')) {
           parsed.heroImage = './images/hero-cutout.webp';
+        }
+        if (!parsed.avatarImage) {
+          parsed.avatarImage = './images/avatar.webp';
         }
         return parsed;
       }
@@ -155,12 +158,15 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const r = parseInt(cleaned.slice(0, 2), 16);
       const g = parseInt(cleaned.slice(2, 4), 16);
       const b = parseInt(cleaned.slice(4, 6), 16);
+      const r2 = Math.max(0, r - 35);
+      const g2 = Math.max(0, g - 25);
+      const b2 = Math.min(255, b + 35);
       document.documentElement.style.setProperty('--accent', hex);
       document.documentElement.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
       document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.28)`);
       document.documentElement.style.setProperty(
         '--accent-gradient',
-        `linear-gradient(135deg, ${hex} 0%, rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 20)}, ${Math.min(255, b + 40)}, 1) 100%)`
+        `linear-gradient(135deg, rgb(${r}, ${g}, ${b}) 0%, rgb(${r2}, ${g2}, ${b2}) 100%)`
       );
     }
   }, [data.themeColor]);

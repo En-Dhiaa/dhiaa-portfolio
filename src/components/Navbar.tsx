@@ -367,6 +367,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
               <FileText size={16} />
               <span>{locale === 'ar' ? 'تحميل السيرة الذاتية' : 'Download CV'}</span>
             </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenAdmin();
+              }}
+              className="btn btn-secondary"
+              style={{ padding: '0.55rem 0.85rem', fontSize: '0.85rem' }}
+              title={locale === 'ar' ? 'دخول لوحة الإدارة' : 'Admin'}
+            >
+              <Lock size={15} />
+              <span>{locale === 'ar' ? 'الإدارة' : 'Admin'}</span>
+            </button>
           </div>
         </div>
       )}
