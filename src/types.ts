@@ -108,5 +108,5 @@ export interface PortfolioData {
   heroImage: string;
   avatarImage: string;
   aboutImage: string;
+  themeColor?: string;
 }
-

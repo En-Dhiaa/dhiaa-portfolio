@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Locale, Theme, PortfolioData, ContactMessage } from '../types';
+import { Locale, Theme, PortfolioData, ContactMessage, ProjectItem } from '../types';
 import { initialPortfolioData } from '../data/initialData';
 
 export interface FontOption {
@@ -21,6 +21,15 @@ export const AVAILABLE_FONTS: FontOption[] = [
   { id: 'readex', name: 'ريديكس برو (Readex Pro)', fontFamily: "'Readex Pro', system-ui, sans-serif" }
 ];
 
+export const THEME_COLOR_PRESETS = [
+  { id: 'purple', name: 'بنفسجي ملكي', hex: '#8B7CFF' },
+  { id: 'blue', name: 'أزرق تقني', hex: '#3B82F6' },
+  { id: 'emerald', name: 'أخضر زمردي', hex: '#10B981' },
+  { id: 'rose', name: 'وردي قرمزي', hex: '#F43F5E' },
+  { id: 'amber', name: 'ذهبي عنبري', hex: '#F59E0B' },
+  { id: 'cyan', name: 'سماوي فاقع', hex: '#06B6D4' },
+];
+
 interface PortfolioContextType {
   locale: Locale;
   theme: Theme;
@@ -32,7 +41,12 @@ interface PortfolioContextType {
   setLocale: (l: Locale) => void;
   setTheme: (t: Theme) => void;
   setFont: (f: string) => void;
+  setThemeColor: (c: string) => void;
   updateData: (newData: PortfolioData) => void;
+  addProject: (proj: ProjectItem) => void;
+  updateProject: (proj: ProjectItem) => void;
+  deleteProject: (id: string) => void;
+  updateImages: (images: { heroImage?: string; avatarImage?: string; aboutImage?: string }) => void;
   resetToDefaults: () => void;
   loginAdmin: (pass: string) => boolean;
   logoutAdmin: () => void;
@@ -73,7 +87,12 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     try {
       const saved = localStorage.getItem('dhiaa_portfolio_data');
       if (saved) {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Ensure new cutout image is picked up if still on old fade
+        if (!parsed.heroImage || parsed.heroImage.includes('fade')) {
+          parsed.heroImage = './images/hero-cutout.webp';
+        }
+        return parsed;
       }
     } catch (e) {
       console.error('Error loading stored portfolio data:', e);
@@ -128,15 +147,62 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     document.documentElement.style.setProperty('--font-arabic', selected.fontFamily);
   }, [currentFont]);
 
+  // Apply dynamic theme color accent
+  useEffect(() => {
+    const hex = data.themeColor || '#8B7CFF';
+    const cleaned = hex.replace('#', '');
+    if (cleaned.length === 6) {
+      const r = parseInt(cleaned.slice(0, 2), 16);
+      const g = parseInt(cleaned.slice(2, 4), 16);
+      const b = parseInt(cleaned.slice(4, 6), 16);
+      document.documentElement.style.setProperty('--accent', hex);
+      document.documentElement.style.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
+      document.documentElement.style.setProperty('--accent-glow', `rgba(${r}, ${g}, ${b}, 0.28)`);
+      document.documentElement.style.setProperty(
+        '--accent-gradient',
+        `linear-gradient(135deg, ${hex} 0%, rgba(${Math.max(0, r - 30)}, ${Math.max(0, g - 20)}, ${Math.min(255, b + 40)}, 1) 100%)`
+      );
+    }
+  }, [data.themeColor]);
+
   const setLocale = (l: Locale) => setLocaleState(l);
 
   const setTheme = (t: Theme) => setThemeState(t);
 
   const setFont = (f: string) => setCurrentFontState(f);
 
+  const setThemeColor = (color: string) => {
+    const updated = { ...data, themeColor: color };
+    updateData(updated);
+  };
+
   const updateData = (newData: PortfolioData) => {
     setData(newData);
     localStorage.setItem('dhiaa_portfolio_data', JSON.stringify(newData));
+  };
+
+  const addProject = (proj: ProjectItem) => {
+    const updated = [proj, ...data.projects];
+    updateData({ ...data, projects: updated });
+  };
+
+  const updateProject = (proj: ProjectItem) => {
+    const updated = data.projects.map(p => p.id === proj.id ? proj : p);
+    updateData({ ...data, projects: updated });
+  };
+
+  const deleteProject = (id: string) => {
+    const updated = data.projects.filter(p => p.id !== id);
+    updateData({ ...data, projects: updated });
+  };
+
+  const updateImages = (images: { heroImage?: string; avatarImage?: string; aboutImage?: string }) => {
+    updateData({
+      ...data,
+      heroImage: images.heroImage || data.heroImage,
+      avatarImage: images.avatarImage || data.avatarImage,
+      aboutImage: images.aboutImage || data.aboutImage
+    });
   };
 
   const resetToDefaults = () => {
@@ -205,7 +271,12 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         setLocale,
         setTheme,
         setFont,
+        setThemeColor,
         updateData,
+        addProject,
+        updateProject,
+        deleteProject,
+        updateImages,
         resetToDefaults,
         loginAdmin,
         logoutAdmin,

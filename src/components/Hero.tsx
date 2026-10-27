@@ -41,8 +41,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
     <section 
       style={{
         position: 'relative',
-        paddingTop: '5.5rem',
-        paddingBottom: '3rem',
+        paddingTop: '5.2rem',
+        paddingBottom: '2.5rem',
         overflow: 'hidden',
         minHeight: '88vh',
         display: 'flex',
@@ -56,8 +56,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           top: '-15%',
           right: locale === 'ar' ? 'auto' : '-10%',
           left: locale === 'ar' ? '-10%' : 'auto',
-          width: '450px',
-          height: '450px',
+          width: '500px',
+          height: '500px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
           filter: 'blur(50px)',
@@ -71,8 +71,8 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           bottom: '5%',
           right: locale === 'ar' ? '5%' : 'auto',
           left: locale === 'ar' ? 'auto' : '5%',
-          width: '350px',
-          height: '350px',
+          width: '380px',
+          height: '380px',
           borderRadius: '50%',
           background: 'radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%)',
           filter: 'blur(60px)',
@@ -320,67 +320,73 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
 
           </div>
 
-          {/* Portrait Composition Column - Clean, Theme-Aware & Natural */}
+          {/* Frameless Organic Silhouette Cutout Portrait Column */}
           <div 
             style={{
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
               position: 'relative',
-              padding: '0.5rem'
+              minHeight: '430px'
             }}
           >
-            {/* Visual Frame - Seamless in both dark and light modes */}
+            {/* Ambient Radial Soft Glow - Behind Silhouette */}
             <div 
               style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '360px',
+                height: '360px',
+                borderRadius: '50%',
+                background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
+                filter: 'blur(35px)',
+                zIndex: 0,
+                pointerEvents: 'none'
+              }}
+            />
+
+            {/* Seamless Isolated Transparent Subject Portrait (No Box, No Frame) */}
+            <img 
+              src={data.heroImage} 
+              alt={data.profile.name[locale]}
+              style={{
+                width: 'auto',
+                maxWidth: '100%',
+                maxHeight: '490px',
+                objectFit: 'contain',
+                display: 'block',
                 position: 'relative',
-                width: '100%',
-                maxWidth: '380px',
-                aspectRatio: '4 / 5',
-                borderRadius: '24px',
-                overflow: 'hidden',
-                boxShadow: 'var(--shadow-lg)',
-                border: '2px solid var(--border-hover)',
-                backgroundColor: 'var(--bg-elevated)'
+                zIndex: 1,
+                filter: 'drop-shadow(0 16px 28px rgba(0, 0, 0, 0.28))'
+              }} 
+            />
+
+            {/* Verified Badge Overlay - Float near top */}
+            <div 
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: locale === 'ar' ? '10px' : 'auto',
+                left: locale === 'ar' ? 'auto' : '10px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.4rem',
+                padding: '0.35rem 0.75rem',
+                borderRadius: 'var(--radius-full)',
+                backgroundColor: 'var(--glass-bg)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid var(--border-hover)',
+                fontSize: '0.76rem',
+                fontWeight: 700,
+                color: 'var(--text-primary)',
+                boxShadow: 'var(--shadow-md)',
+                zIndex: 3
               }}
             >
-              {/* Authentic Subject Portrait - Clean & Crisp */}
-              <img 
-                src={data.heroImage} 
-                alt={data.profile.name[locale]}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  display: 'block'
-                }} 
-              />
-
-              {/* Verified Badge Overlay (Top Corner) */}
-              <div 
-                style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  right: locale === 'ar' ? '1rem' : 'auto',
-                  left: locale === 'ar' ? 'auto' : '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.4rem',
-                  padding: '0.35rem 0.75rem',
-                  borderRadius: 'var(--radius-full)',
-                  backgroundColor: 'var(--glass-bg)',
-                  backdropFilter: 'blur(10px)',
-                  border: '1px solid var(--border-subtle)',
-                  fontSize: '0.76rem',
-                  fontWeight: 700,
-                  color: 'var(--text-primary)',
-                  boxShadow: 'var(--shadow-sm)'
-                }}
-              >
-                <Award size={14} color="#FBBF24" />
-                <span>{locale === 'ar' ? 'مهندس IT معتمد' : 'Verified IT Engineer'}</span>
-              </div>
+              <Award size={14} color="#FBBF24" />
+              <span>{locale === 'ar' ? 'مهندس IT معتمد' : 'Verified IT Engineer'}</span>
             </div>
 
             {/* Floating Card 1: Experience & Dev */}
@@ -388,25 +394,25 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               className="floating-anim"
               style={{
                 position: 'absolute',
-                bottom: '8px',
+                bottom: '10px',
                 left: locale === 'ar' ? '-10px' : 'auto',
                 right: locale === 'ar' ? 'auto' : '-10px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
-                padding: '0.7rem 1.05rem',
+                padding: '0.65rem 1rem',
                 borderRadius: 'var(--radius-md)',
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-hover)',
                 boxShadow: 'var(--shadow-md)',
-                zIndex: 2,
+                zIndex: 3,
                 maxWidth: '220px'
               }}
             >
               <div 
                 style={{
-                  width: '38px',
-                  height: '38px',
+                  width: '36px',
+                  height: '36px',
                   borderRadius: '9px',
                   background: 'var(--accent-gradient)',
                   display: 'flex',
@@ -416,13 +422,13 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                   flexShrink: 0
                 }}
               >
-                <Briefcase size={18} />
+                <Briefcase size={17} />
               </div>
               <div>
-                <div style={{ fontWeight: 800, fontSize: '0.85rem', color: 'var(--text-primary)' }}>
+                <div style={{ fontWeight: 800, fontSize: '0.84rem', color: 'var(--text-primary)' }}>
                   {locale === 'ar' ? 'تطوير Flutter وويب' : 'Flutter & Web Dev'}
                 </div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>
                   {locale === 'ar' ? 'معمارية برمجية نظيفة' : 'Clean Architecture'}
                 </div>
               </div>
@@ -432,9 +438,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
             <div 
               style={{
                 position: 'absolute',
-                top: '25px',
-                right: locale === 'ar' ? '-15px' : 'auto',
-                left: locale === 'ar' ? 'auto' : '-15px',
+                top: '55px',
+                left: locale === 'ar' ? '-15px' : 'auto',
+                right: locale === 'ar' ? 'auto' : '-15px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.55rem',
@@ -443,7 +449,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
                 backgroundColor: 'var(--bg-surface)',
                 border: '1px solid var(--border-subtle)',
                 boxShadow: 'var(--shadow-sm)',
-                zIndex: 2
+                zIndex: 3
               }}
             >
               <FolderGit2 size={16} color="var(--accent)" />
@@ -461,7 +467,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            paddingTop: '2rem'
+            paddingTop: '1.5rem'
           }}
         >
           <a 

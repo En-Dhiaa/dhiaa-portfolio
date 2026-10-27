@@ -1,9 +1,10 @@
 import { PortfolioData } from '../types';
 
 export const initialPortfolioData: PortfolioData = {
-  heroImage: './images/hero-portrait-clean.webp',
+  heroImage: './images/hero-cutout.webp',
   avatarImage: './images/avatar.webp',
   aboutImage: './images/about-portrait.webp',
+  themeColor: '#8B7CFF',
   profile: {
     name: {
       ar: 'م. ضياء عبدالرحمن غالب الحميري',

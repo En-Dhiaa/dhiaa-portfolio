@@ -47,3 +47,4 @@ export const InstagramIcon: React.FC<{ size?: number; className?: string; style?
     </svg>
   );
 };
+
