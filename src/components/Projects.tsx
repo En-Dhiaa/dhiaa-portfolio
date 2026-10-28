@@ -150,8 +150,8 @@ export const Projects: React.FC = () => {
           <div 
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-              gap: '2rem'
+              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 300px), 1fr))',
+              gap: '1.75rem'
             }}
           >
             {filteredProjects.map((project) => (

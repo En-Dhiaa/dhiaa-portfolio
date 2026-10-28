@@ -387,6 +387,22 @@ body {
   transform: translateY(-2px);
 }
 
+/* Social Buttons */
+.social-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social-btn:hover {
+  background-color: var(--bg-elevated) !important;
+  border-color: var(--border-hover) !important;
+  transform: translateY(-2.5px) !important;
+  box-shadow: var(--shadow-md) !important;
+}
+
+.social-btn:active {
+  transform: scale(0.92) !important;
+}
+
 .glass-nav {
   background: var(--glass-bg);
   backdrop-filter: blur(14px);
@@ -449,7 +465,30 @@ body {
   border: 1px solid var(--border-subtle);
 }
 
-/* Mobile Responsiveness Cleanups */
+/* Mobile Responsiveness & Asymmetry Bug Fixes */
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+  .hero-floating-card-1 {
+    bottom: 8px !important;
+    left: 8px !important;
+    right: auto !important;
+    max-width: 190px !important;
+  }
+  .hero-floating-card-2 {
+    top: 15px !important;
+    left: 8px !important;
+    right: auto !important;
+  }
+  .ambient-glow-1, .ambient-glow-2 {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) translate3d(0, 0, 0) !important;
+  }
+}
+
 @media (max-width: 640px) {
   .hero-cta {
     width: 100%;
@@ -467,6 +506,10 @@ body {
   }
   .card {
     padding: 1.15rem;
+  }
+  /* Prevent any horizontal overflow on small phones */
+  section {
+    overflow-x: clip !important;
   }
 }
 

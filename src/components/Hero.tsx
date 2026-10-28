@@ -16,7 +16,7 @@ import {
   MessageSquare 
 } from 'lucide-react';
 import { GithubIcon } from './GithubIcon';
-import { FacebookIcon, InstagramIcon } from './SocialIcons';
+import { SocialBar } from './SocialIcons';
 
 interface HeroProps {
   onOpenCV: () => void;
@@ -87,65 +87,63 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               </span>
             </div>
 
-            {/* Main Name & Title */}
-            <div>
+            {/* Main Name & Title with Professional Visual Alignment */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.55rem' }}>
               <h1 
                 style={{
-                  fontSize: 'clamp(1.75rem, 3.8vw, 2.45rem)',
+                  fontSize: 'clamp(1.85rem, 4vw, 2.65rem)',
                   fontWeight: 900,
-                  lineHeight: 1.25,
-                  marginBottom: '0.45rem',
+                  lineHeight: 1.2,
                   letterSpacing: '-0.02em',
-                  color: 'var(--text-primary)'
+                  color: 'var(--text-primary)',
+                  margin: 0
                 }}
               >
                 {data.profile.name[locale]}
               </h1>
               
               <div 
-                className="gradient-text"
                 style={{
-                  fontSize: 'clamp(0.98rem, 2vw, 1.25rem)',
-                  fontWeight: 700,
-                  lineHeight: 1.35
+                  display: 'flex',
+                  alignItems: 'center',
+                  flexWrap: 'wrap',
+                  gap: '0.65rem',
+                  minHeight: '2.2rem'
                 }}
               >
-                {data.profile.title[locale]}
-              </div>
-            </div>
+                <span 
+                  className="gradient-text"
+                  style={{
+                    fontSize: 'clamp(1.05rem, 2.2vw, 1.32rem)',
+                    fontWeight: 800,
+                    lineHeight: 1.3
+                  }}
+                >
+                  {data.profile.title[locale]}
+                </span>
 
-            {/* Dynamic Rotating Specialty Badge with Smooth Slide */}
-            <div 
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.55rem',
-                padding: '0.48rem 0.95rem',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--bg-elevated)',
-                border: '1px solid var(--border-subtle)',
-                width: 'fit-content',
-                fontSize: '0.88rem',
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                transition: 'all 0.3s ease'
-              }}
-            >
-              <Layers size={16} color="var(--accent)" />
-              <span style={{ color: 'var(--text-muted)' }}>
-                {locale === 'ar' ? 'التخصص النشط:' : 'Specialty:'}
-              </span>
-              <span 
-                key={specialtyIndex}
-                style={{ 
-                  color: 'var(--accent)', 
-                  fontWeight: 700,
-                  display: 'inline-block',
-                  animation: 'slideUpSoft 0.35s ease'
-                }}
-              >
-                {specialties[specialtyIndex]}
-              </span>
+                {/* Dynamic Rotating Specialty Badge with Smooth Slide */}
+                <span 
+                  key={specialtyIndex}
+                  className="badge"
+                  style={{ 
+                    backgroundColor: 'rgba(var(--accent-rgb), 0.12)',
+                    color: 'var(--accent)',
+                    border: '1px solid rgba(var(--accent-rgb), 0.3)',
+                    padding: '0.3rem 0.75rem',
+                    borderRadius: 'var(--radius-full)',
+                    fontSize: '0.84rem',
+                    fontWeight: 700,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.4rem',
+                    animation: 'slideUpSoft 0.35s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
+                >
+                  <Layers size={14} color="var(--accent)" />
+                  <span>{specialties[specialtyIndex]}</span>
+                </span>
+              </div>
             </div>
 
             {/* Short Bio - Concise & Responsive */}
@@ -207,61 +205,9 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
               </a>
             </div>
 
-            {/* Quick Social Icons Row */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem', paddingTop: '0.2rem' }}>
-              <a
-                href={data.profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="GitHub Profile"
-                title="GitHub"
-              >
-                <GithubIcon size={16} />
-              </a>
-              <a
-                href={`https://wa.me/${data.profile.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="WhatsApp"
-                title="WhatsApp"
-              >
-                <MessageSquare size={16} color="#10B981" />
-              </a>
-              <a
-                href={data.profile.facebook || 'https://facebook.com/eng.dhiaa.alhmiri'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Facebook Profile"
-                title="Facebook"
-              >
-                <FacebookIcon size={16} style={{ color: '#1877F2' }} />
-              </a>
-              <a
-                href={data.profile.instagram || 'https://instagram.com/en_dhiaa'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Instagram Profile"
-                title="Instagram"
-              >
-                <InstagramIcon size={16} style={{ color: '#E1306C' }} />
-              </a>
-              <a
-                href={`mailto:${data.profile.email}`}
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Email"
-                title="Email"
-              >
-                <Mail size={16} color="var(--accent)" />
-              </a>
+            {/* Quick Social Icons Row - Accessible 44px Touch Targets */}
+            <div style={{ paddingTop: '0.4rem' }}>
+              <SocialBar iconSize={20} gap="0.75rem" />
             </div>
 
             {/* Quick Stats Grid */}
@@ -379,12 +325,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
 
             {/* Floating Card 1: Experience & Dev */}
             <div 
-              className="floating-anim"
+              className="floating-anim hero-floating-card-1"
               style={{
                 position: 'absolute',
                 bottom: '10px',
-                left: locale === 'ar' ? '-5px' : 'auto',
-                right: locale === 'ar' ? 'auto' : '-5px',
+                left: locale === 'ar' ? '5px' : 'auto',
+                right: locale === 'ar' ? 'auto' : '5px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.65rem',
@@ -424,11 +370,12 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCV }) => {
 
             {/* Floating Card 2: GitHub & Code */}
             <div 
+              className="hero-floating-card-2"
               style={{
                 position: 'absolute',
                 top: '55px',
-                left: locale === 'ar' ? '-10px' : 'auto',
-                right: locale === 'ar' ? 'auto' : '-10px',
+                left: locale === 'ar' ? '5px' : 'auto',
+                right: locale === 'ar' ? 'auto' : '5px',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',

@@ -67,7 +67,7 @@ export const About: React.FC = () => {
         <div 
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))',
             gap: '2.5rem',
             alignItems: 'center'
           }}

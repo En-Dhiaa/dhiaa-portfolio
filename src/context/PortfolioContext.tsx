@@ -1,6 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Locale, Theme, PortfolioData, ContactMessage, ProjectItem } from '../types';
+import { Locale, Theme, PortfolioData, ContactMessage, ProjectItem, SupabaseConfig } from '../types';
 import { initialPortfolioData } from '../data/initialData';
+import { 
+  getSupabaseConfig, 
+  saveSupabaseConfig, 
+  getSupabaseClient, 
+  fetchSharedPortfolioData, 
+  persistSharedPortfolioData, 
+  testSupabaseConnection 
+} from '../services/cloudStorage';
+import { recordVisit, getLocalStats, AnalyticsStats } from '../services/analytics';
 
 export interface FontOption {
   id: string;
@@ -38,11 +47,13 @@ interface PortfolioContextType {
   messages: ContactMessage[];
   currentFont: string;
   visitorCount: number;
+  analyticsStats: AnalyticsStats;
+  supabaseConfig: SupabaseConfig;
   setLocale: (l: Locale) => void;
   setTheme: (t: Theme) => void;
   setFont: (f: string) => void;
   setThemeColor: (c: string) => void;
-  updateData: (newData: PortfolioData) => void;
+  updateData: (newData: PortfolioData) => Promise<{ success: boolean; cloudSynced: boolean; message: string }>;
   addProject: (proj: ProjectItem) => void;
   updateProject: (proj: ProjectItem) => void;
   deleteProject: (id: string) => void;
@@ -54,6 +65,8 @@ interface PortfolioContextType {
   importDataJSON: (jsonStr: string) => boolean;
   addMessage: (msg: Omit<ContactMessage, 'id' | 'date'>) => void;
   deleteMessage: (id: string) => void;
+  updateSupabaseConfig: (cfg: SupabaseConfig) => void;
+  testSupabase: (url: string, key: string) => Promise<{ ok: boolean; message: string }>;
 }
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
@@ -73,14 +86,12 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return localStorage.getItem('dhiaa_font') || 'cairo';
   });
 
-  const [visitorCount, setVisitorCount] = useState<number>(() => {
-    const saved = localStorage.getItem('dhiaa_visitor_count');
-    const base = 1485;
-    if (saved) {
-      const parsed = parseInt(saved, 10);
-      return isNaN(parsed) ? base : parsed;
-    }
-    return base;
+  const [supabaseConfig, setSupabaseConfigState] = useState<SupabaseConfig>(() => {
+    return getSupabaseConfig();
+  });
+
+  const [analyticsStats, setAnalyticsStats] = useState<AnalyticsStats>(() => {
+    return getLocalStats('local');
   });
 
   const [data, setData] = useState<PortfolioData>(() => {
@@ -88,7 +99,6 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       const saved = localStorage.getItem('dhiaa_portfolio_data');
       if (saved) {
         const parsed = JSON.parse(saved);
-        // Ensure new cutout image is picked up if still on old fade
         if (!parsed.heroImage || parsed.heroImage.includes('fade') || parsed.heroImage.includes('clean')) {
           parsed.heroImage = './images/hero-cutout.webp';
         }
@@ -115,16 +125,26 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     return [];
   });
 
-  // Increment visitor counter on new visit session
+  // On mount: fetch shared authoritative portfolio data from cloud/data file
   useEffect(() => {
-    const hasVisitedThisSession = sessionStorage.getItem('dhiaa_visited_session');
-    if (!hasVisitedThisSession) {
-      sessionStorage.setItem('dhiaa_visited_session', 'true');
-      const newCount = visitorCount + 1;
-      setVisitorCount(newCount);
-      localStorage.setItem('dhiaa_visitor_count', newCount.toString());
-    }
+    const loadShared = async () => {
+      const shared = await fetchSharedPortfolioData();
+      if (shared && shared.profile) {
+        setData(shared);
+      }
+    };
+    loadShared();
   }, []);
+
+  // On mount: record real visit analytics
+  useEffect(() => {
+    const logVisit = async () => {
+      const client = getSupabaseClient(supabaseConfig);
+      const res = await recordVisit(client);
+      setAnalyticsStats(res);
+    };
+    logVisit();
+  }, [supabaseConfig]);
 
   useEffect(() => {
     localStorage.setItem('dhiaa_locale', locale);
@@ -182,9 +202,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     updateData(updated);
   };
 
-  const updateData = (newData: PortfolioData) => {
+  const updateData = async (newData: PortfolioData): Promise<{ success: boolean; cloudSynced: boolean; message: string }> => {
     setData(newData);
-    localStorage.setItem('dhiaa_portfolio_data', JSON.stringify(newData));
+    const result = await persistSharedPortfolioData(newData);
+    return result;
   };
 
   const addProject = (proj: ProjectItem) => {
@@ -213,7 +234,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const resetToDefaults = () => {
     setData(initialPortfolioData);
-    localStorage.setItem('dhiaa_portfolio_data', JSON.stringify(initialPortfolioData));
+    updateData(initialPortfolioData);
   };
 
   const loginAdmin = (pass: string): boolean => {
@@ -256,12 +277,34 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const updated = [newMsg, ...messages];
     setMessages(updated);
     localStorage.setItem('dhiaa_contact_messages', JSON.stringify(updated));
+
+    // Also persist message to Supabase if connected
+    const client = getSupabaseClient(supabaseConfig);
+    if (client) {
+      Promise.resolve(
+        client.from('contact_messages').insert({
+          name: msg.name,
+          email: msg.email,
+          category: msg.category,
+          message: msg.message
+        })
+      ).catch(() => {});
+    }
   };
 
   const deleteMessage = (id: string) => {
     const updated = messages.filter(m => m.id !== id);
     setMessages(updated);
     localStorage.setItem('dhiaa_contact_messages', JSON.stringify(updated));
+  };
+
+  const updateSupabaseConfig = (cfg: SupabaseConfig) => {
+    setSupabaseConfigState(cfg);
+    saveSupabaseConfig(cfg);
+  };
+
+  const testSupabase = async (url: string, key: string) => {
+    return await testSupabaseConnection(url, key);
   };
 
   return (
@@ -273,7 +316,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         isAdmin,
         messages,
         currentFont,
-        visitorCount,
+        visitorCount: analyticsStats.sessions,
+        analyticsStats,
+        supabaseConfig,
         setLocale,
         setTheme,
         setFont,
@@ -289,7 +334,9 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         exportDataJSON,
         importDataJSON,
         addMessage,
-        deleteMessage
+        deleteMessage,
+        updateSupabaseConfig,
+        testSupabase
       }}
     >
       {children}

@@ -46,6 +46,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
   const navLinks = [
     { href: '#about', label: locale === 'ar' ? 'عن المهندس' : 'About' },
     { href: '#projects', label: locale === 'ar' ? 'المشاريع' : 'Projects' },
+    { href: '#designs', label: locale === 'ar' ? 'معرض التصاميم' : 'Designs' },
     { href: '#experience', label: locale === 'ar' ? 'الخبرات' : 'Experience' },
     { href: '#education', label: locale === 'ar' ? 'المؤهلات' : 'Education' },
     { href: '#skills', label: locale === 'ar' ? 'المهارات' : 'Skills' },
@@ -171,8 +172,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
             <span className="cv-btn-mobile">CV</span>
           </button>
 
-          {/* Font Selector Menu Dropdown */}
-          <div style={{ position: 'relative' }} ref={fontMenuRef}>
+          {/* Font Selector Menu Dropdown - Desktop Only */}
+          <div style={{ position: 'relative' }} ref={fontMenuRef} className="desktop-only-action">
             <button
               onClick={() => setFontMenuOpen(!fontMenuOpen)}
               className={`btn ${fontMenuOpen ? 'btn-primary' : 'btn-secondary'}`}
@@ -251,10 +252,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
             )}
           </div>
 
-          {/* Language Switch */}
+          {/* Language Switch - Desktop Only */}
           <button
             onClick={toggleLanguage}
-            className="btn btn-secondary"
+            className="btn btn-secondary desktop-only-action"
             style={{
               padding: '0.38rem 0.55rem',
               fontSize: '0.78rem',
@@ -267,7 +268,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
             <span style={{ fontWeight: 700 }}>{locale === 'ar' ? 'EN' : 'ع'}</span>
           </button>
 
-          {/* Theme Switch */}
+          {/* Theme Switch - Visible on Desktop and Mobile */}
           <button
             onClick={toggleTheme}
             className="btn btn-secondary"
@@ -281,10 +282,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
             {theme === 'dark' ? <Sun size={15} color="#FBBF24" /> : <Moon size={15} color="#6366F1" />}
           </button>
 
-          {/* Admin CMS Trigger */}
+          {/* Admin CMS Trigger - Desktop Only */}
           <button
             onClick={onOpenAdmin}
-            className={`btn ${isAdmin ? 'btn-primary' : 'btn-secondary'}`}
+            className={`btn ${isAdmin ? 'btn-primary' : 'btn-secondary'} desktop-only-action`}
             style={{
               padding: '0.38rem 0.55rem',
               borderRadius: 'var(--radius-sm)',
@@ -325,71 +326,166 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCV, onOpenAdmin }) => {
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Drawer - Comprehensive & Intuitive */}
       {mobileMenuOpen && (
         <div 
           style={{
             background: 'var(--bg-surface)',
             borderBottom: '1px solid var(--border-subtle)',
-            padding: '1rem 1.25rem',
+            padding: '1.25rem 1.25rem 1.5rem',
             display: 'flex',
             flexDirection: 'column',
-            gap: '0.75rem',
-            boxShadow: 'var(--shadow-lg)'
+            gap: '0.85rem',
+            boxShadow: 'var(--shadow-lg)',
+            maxHeight: '80vh',
+            overflowY: 'auto'
           }}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                textDecoration: 'none',
-                color: 'var(--text-primary)',
-                fontSize: '0.95rem',
-                fontWeight: 600,
-                padding: '0.45rem 0',
-                borderBottom: '1px solid var(--border-subtle)'
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div style={{ display: 'flex', gap: '0.5rem', paddingTop: '0.35rem' }}>
+          {/* Navigation Links */}
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  textDecoration: 'none',
+                  color: 'var(--text-primary)',
+                  fontSize: '0.96rem',
+                  fontWeight: 600,
+                  padding: '0.65rem 0.25rem',
+                  borderBottom: '1px solid var(--border-subtle)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <span>{link.label}</span>
+                <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem' }}>›</span>
+              </a>
+            ))}
+          </div>
+
+          {/* Transferred Mobile Options: Language, Font, Admin */}
+          <div 
+            style={{ 
+              display: 'flex', 
+              flexDirection: 'column', 
+              gap: '0.65rem', 
+              paddingTop: '0.75rem',
+              borderTop: '1px solid var(--border-hover)' 
+            }}
+          >
+            {/* Language Selector in Drawer */}
             <button
               onClick={() => {
+                toggleLanguage();
                 setMobileMenuOpen(false);
-                onOpenCV();
               }}
-              className="btn btn-primary"
-              style={{ flex: 1, padding: '0.55rem', fontSize: '0.85rem' }}
+              className="btn btn-secondary"
+              style={{
+                width: '100%',
+                justifyContent: 'space-between',
+                padding: '0.65rem 1rem',
+                fontSize: '0.88rem'
+              }}
             >
-              <FileText size={16} />
-              <span>{locale === 'ar' ? 'تحميل السيرة الذاتية' : 'Download CV'}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Languages size={17} color="var(--accent)" />
+                <span>{locale === 'ar' ? 'لغة الموقع' : 'Language'}</span>
+              </div>
+              <span className="badge" style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--accent)', fontWeight: 700 }}>
+                {locale === 'ar' ? 'العربية (تحويل إلى English)' : 'English (Switch to العربية)'}
+              </span>
             </button>
+
+            {/* Font Selector in Drawer */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.35rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.45rem', fontSize: '0.82rem', color: 'var(--text-muted)', fontWeight: 600, padding: '0 0.25rem' }}>
+                <Type size={15} color="var(--accent)" />
+                <span>{locale === 'ar' ? 'خط العرض الافتراضي:' : 'Display Font:'}</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.35rem' }}>
+                {AVAILABLE_FONTS.slice(0, 6).map((font) => (
+                  <button
+                    key={font.id}
+                    onClick={() => {
+                      setFont(font.id);
+                    }}
+                    style={{
+                      padding: '0.45rem 0.5rem',
+                      borderRadius: 'var(--radius-sm)',
+                      border: currentFont === font.id ? '1px solid var(--accent)' : '1px solid var(--border-subtle)',
+                      backgroundColor: currentFont === font.id ? 'rgba(var(--accent-rgb), 0.15)' : 'var(--bg-elevated)',
+                      color: currentFont === font.id ? 'var(--accent)' : 'var(--text-primary)',
+                      fontSize: '0.78rem',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      fontFamily: font.fontFamily
+                    }}
+                  >
+                    {font.name.split(' ')[0]}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Admin CMS Trigger in Drawer */}
             <button
               onClick={() => {
                 setMobileMenuOpen(false);
                 onOpenAdmin();
               }}
-              className="btn btn-secondary"
-              style={{ padding: '0.55rem 0.85rem', fontSize: '0.85rem' }}
-              title={locale === 'ar' ? 'دخول لوحة الإدارة' : 'Admin'}
+              className={`btn ${isAdmin ? 'btn-primary' : 'btn-secondary'}`}
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                padding: '0.7rem 1rem',
+                fontSize: '0.9rem',
+                gap: '0.5rem',
+                marginTop: '0.25rem'
+              }}
             >
-              <Lock size={15} />
-              <span>{locale === 'ar' ? 'الإدارة' : 'Admin'}</span>
+              <Lock size={16} />
+              <span>{isAdmin ? (locale === 'ar' ? 'لوحة الإدارة والتحكم (نشطة)' : 'Dashboard (Active)') : (locale === 'ar' ? 'تسجيل دخول لوحة الإدارة' : 'Admin Login')}</span>
+            </button>
+
+            {/* Download CV Action */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onOpenCV();
+              }}
+              className="btn btn-outline"
+              style={{
+                width: '100%',
+                justifyContent: 'center',
+                padding: '0.65rem 1rem',
+                fontSize: '0.88rem',
+                gap: '0.5rem'
+              }}
+            >
+              <FileText size={16} />
+              <span>{locale === 'ar' ? 'فتح وتحميل السيرة الذاتية (CV)' : 'View & Download CV'}</span>
             </button>
           </div>
         </div>
       )}
 
       <style>{`
+        .desktop-only-action {
+          display: none !important;
+        }
         @media (min-width: 960px) {
           .desktop-nav {
             display: flex !important;
           }
           .mobile-menu-btn {
             display: none !important;
+          }
+          .desktop-only-action {
+            display: inline-flex !important;
           }
         }
       `}</style>

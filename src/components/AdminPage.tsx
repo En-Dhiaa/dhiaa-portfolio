@@ -22,7 +22,14 @@ import {
   LogOut,
   Sun,
   Moon,
-  ExternalLink
+  ExternalLink,
+  Database,
+  Cloud,
+  Key,
+  Copy,
+  AlertTriangle,
+  RefreshCw,
+  Check
 } from 'lucide-react';
 
 interface AdminPageProps {
@@ -49,13 +56,24 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
     resetToDefaults, 
     exportDataJSON, 
     importDataJSON,
-    deleteMessage
+    deleteMessage,
+    supabaseConfig,
+    updateSupabaseConfig,
+    testSupabase
   } = usePortfolio();
 
   const [password, setPassword] = useState('');
   const [authError, setAuthError] = useState('');
-  const [activeTab, setActiveTab] = useState<'projects' | 'images' | 'appearance' | 'profile' | 'inbox' | 'backup'>('projects');
-  const [saveSuccess, setSaveSuccess] = useState('');
+  const [activeTab, setActiveTab] = useState<'projects' | 'images' | 'appearance' | 'profile' | 'inbox' | 'backup' | 'cloud'>('projects');
+  const [notifyState, setNotifyState] = useState<{ type: 'success' | 'warning' | 'error'; msg: string } | null>(null);
+
+  // Supabase management state
+  const [sbUrl, setSbUrl] = useState(supabaseConfig?.url || '');
+  const [sbKey, setSbKey] = useState(supabaseConfig?.anonKey || '');
+  const [sbTesting, setSbTesting] = useState(false);
+  const [sbTestResult, setSbTestResult] = useState<{ ok: boolean; message: string } | null>(null);
+  const [isSavingCloud, setIsSavingCloud] = useState(false);
+  const [sqlCopied, setSqlCopied] = useState(false);
 
   // Profile temporary edit state
   const [editProfile, setEditProfile] = useState(data.profile);
@@ -111,27 +129,39 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
     }
   };
 
-  const showNotification = (msg: string) => {
-    setSaveSuccess(msg);
-    setTimeout(() => setSaveSuccess(''), 3000);
+  const showNotification = (msg: string, type: 'success' | 'warning' | 'error' = 'success') => {
+    setNotifyState({ msg, type });
+    setTimeout(() => setNotifyState(null), 4500);
   };
 
-  const handleSaveProfile = () => {
-    updateData({
+  const handleSaveProfile = async () => {
+    const res = await updateData({
       ...data,
       profile: editProfile
     });
-    showNotification(locale === 'ar' ? 'تم حفظ بيانات الملف الشخصي بنجاح!' : 'Profile updated successfully!');
+    if (res.cloudSynced) {
+      showNotification(locale === 'ar' ? '🟢 تم حفظ بيانات الملف الشخصي ومزامنتها سحابياً لكافة الأجهزة!' : 'Profile saved and cloud-synced!', 'success');
+    } else if (res.success) {
+      showNotification(locale === 'ar' ? '🟡 تم حفظ بيانات الملف الشخصي محلياً. لمزامنتها لكافة الأجهزة، اربط Supabase من تبويب "التخزين السحابي".' : 'Profile saved locally.', 'warning');
+    } else {
+      showNotification(res.message, 'error');
+    }
   };
 
-  const handleSaveImages = () => {
-    updateData({
+  const handleSaveImages = async () => {
+    const res = await updateData({
       ...data,
       heroImage: editImages.heroImage,
       avatarImage: editImages.avatarImage,
       aboutImage: editImages.aboutImage
     });
-    showNotification(locale === 'ar' ? 'تم تحديث صور الموقع بنجاح!' : 'Website images updated successfully!');
+    if (res.cloudSynced) {
+      showNotification(locale === 'ar' ? '🟢 تم تحديث صور الموقع ومزامنتها سحابياً لكافة الأجهزة!' : 'Images updated and cloud-synced!', 'success');
+    } else if (res.success) {
+      showNotification(locale === 'ar' ? '🟡 تم حفظ الصور محلياً.' : 'Images saved locally.', 'warning');
+    } else {
+      showNotification(res.message, 'error');
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>, target: 'hero' | 'avatar' | 'about' | 'projCover') => {
@@ -251,6 +281,48 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
     a.download = `dhiaa-portfolio-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
+    showNotification(locale === 'ar' ? 'تم تنزيل النسخة الاحتياطية بنجاح!' : 'Backup downloaded successfully!', 'success');
+  };
+
+  const handleTestSupabase = async () => {
+    if (!sbUrl || !sbKey) {
+      showNotification(locale === 'ar' ? 'يرجى إدخال عنوان URL والمفتاح العام لـ Supabase' : 'Please provide Supabase URL and Anon Key', 'error');
+      return;
+    }
+    setSbTesting(true);
+    setSbTestResult(null);
+    const res = await testSupabase(sbUrl.trim(), sbKey.trim());
+    setSbTesting(false);
+    setSbTestResult(res);
+    if (res.ok) {
+      showNotification(res.message, 'success');
+    } else {
+      showNotification(res.message, 'error');
+    }
+  };
+
+  const handleSaveSupabaseConfig = () => {
+    if (!sbUrl || !sbKey) {
+      showNotification(locale === 'ar' ? 'يرجى إدخال عنوان URL والمفتاح العام' : 'Please provide URL and Key', 'error');
+      return;
+    }
+    updateSupabaseConfig({
+      url: sbUrl.trim(),
+      anonKey: sbKey.trim(),
+      connected: true
+    });
+    showNotification(locale === 'ar' ? 'تم حفظ إعدادات الربط مع Supabase بنجاح!' : 'Supabase config saved successfully!', 'success');
+  };
+
+  const handleSyncAllToCloud = async () => {
+    setIsSavingCloud(true);
+    const res = await updateData(data);
+    setIsSavingCloud(false);
+    if (res.cloudSynced) {
+      showNotification(locale === 'ar' ? '🟢 تمت مزامنة كافة بيانات الموقع سحابياً بنجاح!' : 'All portfolio data synchronized to cloud!', 'success');
+    } else {
+      showNotification(res.message, 'error');
+    }
   };
 
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -369,24 +441,28 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
         <div className="container" style={{ maxWidth: '1000px', padding: 0 }}>
           
           {/* Global Notification Toast */}
-          {saveSuccess && (
+          {notifyState && (
             <div 
               style={{ 
-                padding: '0.75rem 1.25rem', 
-                backgroundColor: 'rgba(16, 185, 129, 0.15)', 
-                color: '#10B981', 
+                padding: '0.85rem 1.25rem', 
+                backgroundColor: notifyState.type === 'success' 
+                  ? 'rgba(16, 185, 129, 0.15)' 
+                  : notifyState.type === 'warning' 
+                  ? 'rgba(245, 158, 11, 0.15)' 
+                  : 'rgba(239, 68, 68, 0.15)', 
+                color: notifyState.type === 'success' ? '#10B981' : notifyState.type === 'warning' ? '#F59E0B' : '#EF4444', 
                 borderRadius: 'var(--radius-md)', 
                 display: 'flex', 
                 alignItems: 'center', 
-                gap: '0.55rem', 
+                gap: '0.65rem', 
                 fontWeight: 700,
                 fontSize: '0.9rem',
                 marginBottom: '1.25rem',
-                border: '1px solid rgba(16, 185, 129, 0.3)'
+                border: `1px solid ${notifyState.type === 'success' ? 'rgba(16, 185, 129, 0.3)' : notifyState.type === 'warning' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`
               }}
             >
-              <CheckCircle2 size={18} />
-              <span>{saveSuccess}</span>
+              {notifyState.type === 'success' ? <CheckCircle2 size={18} /> : <AlertTriangle size={18} />}
+              <span>{notifyState.msg}</span>
             </div>
           )}
 
@@ -530,6 +606,18 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
                 >
                   <Download size={16} />
                   <span>{locale === 'ar' ? 'النسخ الاحتياطي' : 'Backup'}</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('cloud')}
+                  className={`btn ${activeTab === 'cloud' ? 'btn-primary' : 'btn-secondary'}`}
+                  style={{ padding: '0.5rem 1rem', fontSize: '0.85rem', whiteSpace: 'nowrap', display: 'flex', alignItems: 'center', gap: '0.45rem' }}
+                >
+                  <Database size={16} />
+                  <span>{locale === 'ar' ? 'التخزين السحابي (Supabase)' : 'Cloud DB'}</span>
+                  {supabaseConfig?.connected && (
+                    <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10B981', display: 'inline-block' }} />
+                  )}
                 </button>
               </div>
 
@@ -1386,7 +1474,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
                       onClick={() => {
                         if (confirm(locale === 'ar' ? 'هل أنت متأكد من استعادة بيانات الموقع الأصلية؟ ستفقد التعديلات المحلية غير المحفوظة.' : 'Are you sure you want to reset to defaults?')) {
                           resetToDefaults();
-                          showNotification(locale === 'ar' ? 'تمت استعادة البيانات الافتراضية بنجاح!' : 'Defaults restored!');
+                          showNotification(locale === 'ar' ? 'تمت استعادة البيانات الافتراضية بنجاح!' : 'Defaults restored!', 'warning');
                         }
                       }} 
                       className="btn btn-secondary" 
@@ -1395,6 +1483,232 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
                       <RotateCcw size={16} />
                       <span>{locale === 'ar' ? 'استعادة البيانات الافتراضية' : 'Restore Defaults'}</span>
                     </button>
+                  </div>
+                </div>
+              )}
+
+              {/* TAB 7: Cloud Database & Supabase Persistence */}
+              {activeTab === 'cloud' && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  <div>
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                      {locale === 'ar' ? 'إعدادات قاعدة البيانات السحابية والمزامنة (Supabase)' : 'Cloud Database & Multi-Device Sync (Supabase)'}
+                    </h3>
+                    <p style={{ fontSize: '0.86rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>
+                      {locale === 'ar' 
+                        ? 'اربط موقعك مع مشروع Supabase لمزامنة كافة تعديلات لوحة الإدارة فوراً عبر جميع الأجهزة والمتصفحات وحفظ رسائل الزوار وإحصائيات الزيارات الحقيقية.'
+                        : 'Connect your portfolio with Supabase to sync admin edits across all devices in real-time.'}
+                    </p>
+                  </div>
+
+                  {/* Connection Status Card */}
+                  <div 
+                    className="card" 
+                    style={{ 
+                      padding: '1.25rem',
+                      border: supabaseConfig?.connected ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid rgba(245, 158, 11, 0.4)',
+                      backgroundColor: supabaseConfig?.connected ? 'rgba(16, 185, 129, 0.05)' : 'rgba(245, 158, 11, 0.05)'
+                    }}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
+                        <Cloud size={24} color={supabaseConfig?.connected ? '#10B981' : '#F59E0B'} />
+                        <div>
+                          <div style={{ fontWeight: 800, fontSize: '0.98rem', color: 'var(--text-primary)' }}>
+                            {supabaseConfig?.connected 
+                              ? (locale === 'ar' ? 'قاعدة البيانات السحابية: متصلة بنجاح 🟢' : 'Supabase Cloud: Connected 🟢')
+                              : (locale === 'ar' ? 'التخزين الحالي: محلي فقط (غير متزامن سحابياً) 🟡' : 'Current Storage: Local Cache 🟡')}
+                          </div>
+                          <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+                            {supabaseConfig?.connected 
+                              ? (locale === 'ar' ? 'التعديلات تُحفظ في السحابة وتظهر مباشرة لأي زائر من أي جهاز.' : 'Edits are saved to Supabase and visible globally.')
+                              : (locale === 'ar' ? 'أدخل بيانات Supabase بالأسفل للربط السحابي الدائم.' : 'Enter your Supabase credentials below.')}
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={handleSyncAllToCloud}
+                        disabled={isSavingCloud}
+                        className="btn btn-primary"
+                        style={{ padding: '0.5rem 1rem', fontSize: '0.84rem', gap: '0.45rem' }}
+                      >
+                        <RefreshCw size={15} className={isSavingCloud ? 'floating-anim' : ''} />
+                        <span>{isSavingCloud ? (locale === 'ar' ? 'جارٍ المزامنة...' : 'Syncing...') : (locale === 'ar' ? 'مزامنة سحابية شاملة' : 'Sync All Now')}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Credentials Form Card */}
+                  <div className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--text-primary)', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '0.65rem' }}>
+                      {locale === 'ar' ? 'بيانات الاتصال بمشروع Supabase' : 'Supabase Project Credentials'}
+                    </h4>
+
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
+                        {locale === 'ar' ? 'عنوان مشروع Supabase (Project URL):' : 'Supabase Project URL:'}
+                      </label>
+                      <input 
+                        type="text" 
+                        value={sbUrl}
+                        onChange={(e) => setSbUrl(e.target.value)}
+                        placeholder="https://xyzcompany.supabase.co"
+                        style={{
+                          width: '100%',
+                          padding: '0.7rem 0.95rem',
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: 'var(--bg-main)',
+                          border: '1px solid var(--border-subtle)',
+                          color: 'var(--text-primary)',
+                          fontSize: '0.88rem',
+                          fontFamily: 'monospace'
+                        }}
+                        dir="ltr"
+                      />
+                    </div>
+
+                    <div>
+                      <label style={{ display: 'block', fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.4rem' }}>
+                        {locale === 'ar' ? 'المفتاح العام (Anon / Public Key):' : 'Anon Public API Key:'}
+                      </label>
+                      <input 
+                        type="password" 
+                        value={sbKey}
+                        onChange={(e) => setSbKey(e.target.value)}
+                        placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        style={{
+                          width: '100%',
+                          padding: '0.7rem 0.95rem',
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: 'var(--bg-main)',
+                          border: '1px solid var(--border-subtle)',
+                          color: 'var(--text-primary)',
+                          fontSize: '0.88rem',
+                          fontFamily: 'monospace'
+                        }}
+                        dir="ltr"
+                      />
+                    </div>
+
+                    {sbTestResult && (
+                      <div 
+                        style={{ 
+                          padding: '0.75rem 1rem', 
+                          borderRadius: 'var(--radius-sm)',
+                          backgroundColor: sbTestResult.ok ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
+                          color: sbTestResult.ok ? '#10B981' : '#EF4444',
+                          fontSize: '0.85rem',
+                          fontWeight: 600
+                        }}
+                      >
+                        {sbTestResult.message}
+                      </div>
+                    )}
+
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', paddingTop: '0.5rem' }}>
+                      <button
+                        type="button"
+                        onClick={handleTestSupabase}
+                        disabled={sbTesting}
+                        className="btn btn-secondary"
+                        style={{ padding: '0.65rem 1.25rem', fontSize: '0.85rem' }}
+                      >
+                        <span>{sbTesting ? (locale === 'ar' ? 'جارٍ الفحص...' : 'Testing...') : (locale === 'ar' ? 'فحص الاتصال بقاعدة البيانات' : 'Test Connection')}</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={handleSaveSupabaseConfig}
+                        className="btn btn-primary"
+                        style={{ padding: '0.65rem 1.25rem', fontSize: '0.85rem' }}
+                      >
+                        <span>{locale === 'ar' ? 'حفظ إعدادات الربط' : 'Save Credentials'}</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* SQL Schema Migration Guide Box */}
+                  <div className="card" style={{ padding: '1.5rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      <h4 style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                        {locale === 'ar' ? 'كود SQL المعتمد لإنشاء الجداول في Supabase' : 'Supabase SQL Schema & RLS Script'}
+                      </h4>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(`CREATE TABLE IF NOT EXISTS public.portfolio_config (
+  id TEXT PRIMARY KEY DEFAULT 'main',
+  data JSONB NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+ALTER TABLE public.portfolio_config ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can view portfolio configuration" ON public.portfolio_config FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow update portfolio configuration" ON public.portfolio_config FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+
+CREATE TABLE IF NOT EXISTS public.site_analytics (
+  id TEXT PRIMARY KEY DEFAULT 'global',
+  page_views BIGINT DEFAULT 1,
+  sessions BIGINT DEFAULT 1,
+  unique_visitors BIGINT DEFAULT 1,
+  last_visit TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now())
+);
+ALTER TABLE public.site_analytics ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can view site analytics" ON public.site_analytics FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Public can increment site analytics" ON public.site_analytics FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);
+INSERT INTO public.site_analytics (id, page_views, sessions, unique_visitors) VALUES ('global', 1485, 1260, 940) ON CONFLICT (id) DO NOTHING;
+
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  category TEXT NOT NULL,
+  message TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can submit contact messages" ON public.contact_messages FOR INSERT TO anon, authenticated WITH CHECK (true);
+CREATE POLICY "Admin can view contact messages" ON public.contact_messages FOR SELECT TO authenticated USING (true);`);
+                          setSqlCopied(true);
+                          setTimeout(() => setSqlCopied(false), 2500);
+                        }}
+                        className="btn btn-secondary"
+                        style={{ padding: '0.35rem 0.75rem', fontSize: '0.78rem' }}
+                      >
+                        {sqlCopied ? <Check size={14} color="#10B981" /> : <Copy size={14} />}
+                        <span>{sqlCopied ? (locale === 'ar' ? 'تم النسخ!' : 'Copied!') : (locale === 'ar' ? 'نسخ كود SQL' : 'Copy SQL')}</span>
+                      </button>
+                    </div>
+
+                    <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+                      {locale === 'ar' 
+                        ? 'انسخ هذا الكود والصقه في نافذة (SQL Editor) داخل لوحة تحكم مشروعك في Supabase واضغط Run لإنشاء الجداول وصلاحيات الأمان RLS بنقرة واحدة.'
+                        : 'Copy and paste this script into your Supabase SQL Editor and click Run.'}
+                    </p>
+
+                    <pre 
+                      style={{
+                        padding: '1rem',
+                        borderRadius: 'var(--radius-sm)',
+                        backgroundColor: 'var(--bg-main)',
+                        border: '1px solid var(--border-subtle)',
+                        fontSize: '0.75rem',
+                        color: 'var(--accent)',
+                        overflowX: 'auto',
+                        maxHeight: '180px',
+                        fontFamily: 'monospace'
+                      }}
+                      dir="ltr"
+                    >
+{`-- Run in Supabase SQL Editor
+CREATE TABLE IF NOT EXISTS public.portfolio_config (
+  id TEXT PRIMARY KEY DEFAULT 'main',
+  data JSONB NOT NULL,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+ALTER TABLE public.portfolio_config ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Public can view portfolio configuration" ON public.portfolio_config FOR SELECT TO anon, authenticated USING (true);
+CREATE POLICY "Allow update portfolio configuration" ON public.portfolio_config FOR ALL TO anon, authenticated USING (true) WITH CHECK (true);`}
+                    </pre>
                   </div>
                 </div>
               )}
@@ -1418,3 +1732,4 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBack }) => {
     </div>
   );
 };
+

@@ -1,0 +1,197 @@
+[
+  {
+    "id": "d-1",
+    "file": "Artboard 1 copy 2@4x-100.jpg",
+    "title": {
+      "ar": "بوستر إعلاني تجاري متقدم",
+      "en": "Commercial Advertising Poster"
+    },
+    "category": "posters",
+    "desc": {
+      "ar": "تصميم إعلاني تجاري احترافي بدقة 4K مع تكوين بصري متوازن وإضاءة سينمائية.",
+      "en": "High-resolution commercial poster with realistic lighting and balanced layout."
+    },
+    "fullImage": "./images/designs/d-1-full.webp",
+    "thumbImage": "./images/designs/d-1-thumb.webp"
+  },
+  {
+    "id": "d-2",
+    "file": "Voltenac Emulgel Relief Poster.png",
+    "title": {
+      "ar": "بوستر ترويجي طبي — فلتناك جل",
+      "en": "Voltenac Emulgel Medical Poster"
+    },
+    "category": "posters",
+    "desc": {
+      "ar": "حملة بصرية متكاملة لمنتج طبي دوائي، مع إبراز هوية العبوة وسرعة تخفيف الألم.",
+      "en": "Medical product advertising poster highlighting pharmaceutical branding."
+    },
+    "fullImage": "./images/designs/d-2-full.webp",
+    "thumbImage": "./images/designs/d-2-thumb.webp"
+  },
+  {
+    "id": "d-3",
+    "file": "cd2.jpg",
+    "title": {
+      "ar": "تصميم غلاف ووسائط رقمية CD",
+      "en": "Digital Media & CD Label Branding"
+    },
+    "category": "branding",
+    "desc": {
+      "ar": "تصميم هوية بصرية مخصصة للأقراص والوسائط التعليمية والرقمية بألوان متناسقة.",
+      "en": "Custom disk and digital media branding identity."
+    },
+    "fullImage": "./images/designs/d-3-full.webp",
+    "thumbImage": "./images/designs/d-3-thumb.webp"
+  },
+  {
+    "id": "d-4",
+    "file": "al.jpg",
+    "title": {
+      "ar": "تكوين فوتوغرافي وتصميم هوية إبداعية",
+      "en": "Creative Branding & Composition"
+    },
+    "category": "branding",
+    "desc": {
+      "ar": "معالجة صور وهوية بصرية رقمية بمقاييس دقيقة وألوان سينمائية.",
+      "en": "Visual composition and color grading for creative media."
+    },
+    "fullImage": "./images/designs/d-4-full.webp",
+    "thumbImage": "./images/designs/d-4-thumb.webp"
+  },
+  {
+    "id": "d-5",
+    "file": "IMG-20260801-WA0034.jpg",
+    "title": {
+      "ar": "تصميم بوستر فعاليات ومؤتمرات",
+      "en": "Conference & Event Poster"
+    },
+    "category": "posters",
+    "desc": {
+      "ar": "تصميم إعلاني للمؤتمرات والندوات التقنية بتسلسل هرمي بصري واضح.",
+      "en": "Event promotional poster with clean typographic hierarchy."
+    },
+    "fullImage": "./images/designs/d-5-full.webp",
+    "thumbImage": "./images/designs/d-5-thumb.webp"
+  },
+  {
+    "id": "d-6",
+    "file": "IMG-20261025-WA0015.jpg",
+    "title": {
+      "ar": "بانر تسويقي رقمي للسوشيال ميديا",
+      "en": "Social Media Marketing Banner"
+    },
+    "category": "branding",
+    "desc": {
+      "ar": "بانر ترويجي لمنصات التواصل الاجتماعي بتنسيق جذاب ومحفز للتفاعل.",
+      "en": "Engaging promotional banner crafted for digital marketing campaigns."
+    },
+    "fullImage": "./images/designs/d-6-full.webp",
+    "thumbImage": "./images/designs/d-6-thumb.webp"
+  },
+  {
+    "id": "d-7",
+    "file": "Screenshot_20251216_042412_Gallery.jpg",
+    "title": {
+      "ar": "واجهات تطبيقات الجوال UI/UX",
+      "en": "Mobile App UI/UX Interfaces"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "تصميم واجهات وتجربة مستخدم لتطبيقات الموبايل بدقة وتناسق بصري.",
+      "en": "Mobile application UI/UX screen design and component hierarchy."
+    },
+    "fullImage": "./images/designs/d-7-full.webp",
+    "thumbImage": "./images/designs/d-7-thumb.webp"
+  },
+  {
+    "id": "d-8",
+    "file": "Screenshot_20251216_042713_Drive.jpg",
+    "title": {
+      "ar": "تصميم شاشات نظام إدارة العمليات",
+      "en": "Operational Management System UI"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "لوحات تحكم وشاشات بيانات لنظام إداري يجمع بين البساطة وغزارة المعلومات.",
+      "en": "Dashboard and operational UI balancing data richness with simplicity."
+    },
+    "fullImage": "./images/designs/d-8-full.webp",
+    "thumbImage": "./images/designs/d-8-thumb.webp"
+  },
+  {
+    "id": "d-9",
+    "file": "Screenshot_20251216_043238_Drive.jpg",
+    "title": {
+      "ar": "تصميم تدفق المستخدم وتجربة التطبيق",
+      "en": "App User Flow & Interaction Design"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "هيكلة تجربة المستخدم وشاشات التسجيل والتفاعل لتطبيقات الخدمات.",
+      "en": "User onboarding and interaction flow for service mobile apps."
+    },
+    "fullImage": "./images/designs/d-9-full.webp",
+    "thumbImage": "./images/designs/d-9-thumb.webp"
+  },
+  {
+    "id": "d-10",
+    "file": "Screenshot_20260521_050559_Drive.jpg",
+    "title": {
+      "ar": "مخططات واجهات متجاوبة وبطاقات رقمية",
+      "en": "Responsive Card UI Components"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "مكتبة مكونات بصرية وبطاقات تفاعلية مصممة بـ Figma لمختلف قياسات الشاشات.",
+      "en": "Interactive UI component system and card patterns."
+    },
+    "fullImage": "./images/designs/d-10-full.webp",
+    "thumbImage": "./images/designs/d-10-thumb.webp"
+  },
+  {
+    "id": "d-11",
+    "file": "Screenshot_20260521_050949_WhatsAppBusiness.jpg",
+    "title": {
+      "ar": "شاشات متجر رقمي وتطبيق تسوق",
+      "en": "E-Commerce Mobile App Screens"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "تصميم شاشات عرض المنتجات وسلة الشراء بأسلوب عصري يركز على سهولة التحويل.",
+      "en": "Modern product catalog and checkout UX for e-commerce apps."
+    },
+    "fullImage": "./images/designs/d-11-full.webp",
+    "thumbImage": "./images/designs/d-11-thumb.webp"
+  },
+  {
+    "id": "d-12",
+    "file": "Screenshot_20261011_142615_WhatsAppBusiness.jpg",
+    "title": {
+      "ar": "واجهات المحفظة المالية والمدفوعات",
+      "en": "Digital Wallet & Fintech UI"
+    },
+    "category": "uiux",
+    "desc": {
+      "ar": "تصميم شاشات المحفظة الإلكترونية والمعاملات المالية مع مراعاة الأمان والوضوح.",
+      "en": "Fintech mobile wallet screens designed for clarity and security."
+    },
+    "fullImage": "./images/designs/d-12-full.webp",
+    "thumbImage": "./images/designs/d-12-thumb.webp"
+  },
+  {
+    "id": "d-13",
+    "file": "صورة رقم 1.jpg",
+    "title": {
+      "ar": "تكوين إعلاني بصري للمنتجات",
+      "en": "Product Advertising Composition"
+    },
+    "category": "posters",
+    "desc": {
+      "ar": "إعلان بصري احترافي يعتمد على دمج العناصر والظلال الواقعية.",
+      "en": "Creative product advertisement blending realistic lighting and depth."
+    },
+    "fullImage": "./images/designs/d-13-full.webp",
+    "thumbImage": "./images/designs/d-13-thumb.webp"
+  }
+]

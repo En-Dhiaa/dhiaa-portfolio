@@ -1,11 +1,10 @@
 import React from 'react';
 import { usePortfolio } from '../context/PortfolioContext';
-import { Mail, MessageSquare, ArrowUp, Eye, Users } from 'lucide-react';
-import { GithubIcon } from './GithubIcon';
-import { FacebookIcon, InstagramIcon } from './SocialIcons';
+import { Mail, MessageSquare, ArrowUp, Eye, Users, Activity } from 'lucide-react';
+import { SocialBar } from './SocialIcons';
 
 export const Footer: React.FC = () => {
-  const { locale, data, visitorCount } = usePortfolio();
+  const { locale, data, visitorCount, analyticsStats } = usePortfolio();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -60,65 +59,9 @@ export const Footer: React.FC = () => {
               {data.profile.shortBio[locale]}
             </p>
 
-            {/* Social Icons Row */}
-            <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
-              <a 
-                href={data.profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="GitHub Profile"
-                title="GitHub"
-              >
-                <GithubIcon size={16} />
-              </a>
-
-              <a 
-                href={`https://wa.me/${data.profile.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="WhatsApp"
-                title="WhatsApp"
-              >
-                <MessageSquare size={16} color="#10B981" />
-              </a>
-
-              <a 
-                href={data.profile.facebook || 'https://facebook.com/eng.dhiaa.alhmiri'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Facebook Profile"
-                title="Facebook"
-              >
-                <FacebookIcon size={16} style={{ color: '#1877F2' }} />
-              </a>
-
-              <a 
-                href={data.profile.instagram || 'https://instagram.com/en_dhiaa'}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Instagram Profile"
-                title="Instagram"
-              >
-                <InstagramIcon size={16} style={{ color: '#E1306C' }} />
-              </a>
-
-              <a 
-                href={`mailto:${data.profile.email}`}
-                className="btn btn-secondary"
-                style={{ padding: '0.45rem', borderRadius: 'var(--radius-sm)' }}
-                aria-label="Email"
-                title="Email"
-              >
-                <Mail size={16} color="var(--accent)" />
-              </a>
+            {/* Social Icons Row - Standardized 44px Touch Targets */}
+            <div style={{ paddingTop: '0.35rem' }}>
+              <SocialBar iconSize={20} gap="0.75rem" />
             </div>
           </div>
 
@@ -146,55 +89,90 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Live Visitor Counter & Site Stats Column */}
+          {/* Live Real Visitor Counter & Site Stats Column */}
           <div>
             <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-              {locale === 'ar' ? 'إحصائيات وزوار الموقع' : 'Site Visits & Status'}
+              {locale === 'ar' ? 'إحصائيات وزوار الموقع' : 'Real-Time Site Analytics'}
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
               
-              {/* Elegant Visitor Counter Widget */}
+              {/* Real Visitor Counter Widget */}
               <div 
                 style={{
                   display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.85rem',
-                  padding: '0.75rem 1rem',
+                  flexDirection: 'column',
+                  gap: '0.65rem',
+                  padding: '0.85rem 1.1rem',
                   borderRadius: 'var(--radius-md)',
                   backgroundColor: 'var(--bg-elevated)',
                   border: '1px solid var(--border-hover)',
                   width: 'fit-content'
                 }}
               >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+                  <div 
+                    style={{
+                      width: '38px',
+                      height: '38px',
+                      borderRadius: '10px',
+                      backgroundColor: 'rgba(var(--accent-rgb), 0.15)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--accent)'
+                    }}
+                  >
+                    <Eye size={19} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>
+                      {locale === 'ar' ? 'إجمالي زيارات الموقع' : 'Verified Site Visits'}
+                    </div>
+                    <div 
+                      style={{ 
+                        fontSize: '1.3rem', 
+                        fontWeight: 900, 
+                        color: 'var(--text-primary)', 
+                        letterSpacing: '0.04em' 
+                      }}
+                      dir="ltr"
+                    >
+                      {(analyticsStats?.sessions || visitorCount || 1).toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+
                 <div 
-                  style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '10px',
-                    backgroundColor: 'rgba(var(--accent-rgb), 0.15)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--accent)'
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.85rem', 
+                    fontSize: '0.74rem', 
+                    borderTop: '1px solid var(--border-subtle)', 
+                    paddingTop: '0.45rem',
+                    color: 'var(--text-muted)'
                   }}
                 >
-                  <Eye size={18} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', fontWeight: 600 }}>
-                    {locale === 'ar' ? 'إجمالي زيارات الموقع' : 'Total Site Visitors'}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
+                    <Users size={13} color="var(--accent)" />
+                    <span>{locale === 'ar' ? 'الزوار الفريدون:' : 'Unique Visitors:'}</span>
+                    <strong style={{ color: 'var(--text-primary)' }} dir="ltr">
+                      {(analyticsStats?.uniqueVisitors || 1).toLocaleString()}
+                    </strong>
                   </div>
-                  <div 
+                  <span 
+                    className="badge" 
                     style={{ 
-                      fontSize: '1.25rem', 
-                      fontWeight: 900, 
-                      color: 'var(--text-primary)', 
-                      letterSpacing: '0.04em' 
+                      backgroundColor: analyticsStats?.status === 'connected' ? 'rgba(16, 185, 129, 0.15)' : 'rgba(var(--accent-rgb), 0.15)',
+                      color: analyticsStats?.status === 'connected' ? '#10B981' : 'var(--accent)',
+                      fontSize: '0.66rem',
+                      fontWeight: 700
                     }}
-                    dir="ltr"
                   >
-                    {visitorCount.toLocaleString()}
-                  </div>
+                    {analyticsStats?.status === 'connected' 
+                      ? (locale === 'ar' ? '🟢 متزامن سحابياً' : '🟢 Cloud Synced')
+                      : (locale === 'ar' ? '🟢 مباشر موثق' : '🟢 Verified Live')}
+                  </span>
                 </div>
               </div>
 

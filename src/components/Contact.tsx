@@ -81,7 +81,7 @@ export const Contact: React.FC = () => {
         <div 
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 290px), 1fr))',
             gap: '2.25rem',
             alignItems: 'flex-start'
           }}
@@ -177,7 +177,7 @@ export const Contact: React.FC = () => {
 
             {/* Facebook Card */}
             <a 
-              href={data.profile.facebook || 'https://facebook.com/eng.dhiaa.alhmiri'}
+              href={data.profile.facebook || 'https://www.facebook.com/share/14tD7vqteaR/'}
               target="_blank"
               rel="noopener noreferrer"
               className="card"
@@ -211,7 +211,7 @@ export const Contact: React.FC = () => {
                   {locale === 'ar' ? 'صفحة الفيسبوك الرسمية' : 'Official Facebook Page'}
                 </div>
                 <div style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)' }} dir="ltr">
-                  fb.com/eng.dhiaa.alhmiri
+                  facebook.com/share/14tD7vqteaR
                 </div>
                 <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
                   {locale === 'ar' ? 'متابعة وتواصل على Facebook' : 'Connect on Facebook'}
@@ -222,7 +222,7 @@ export const Contact: React.FC = () => {
 
             {/* Instagram Card */}
             <a 
-              href={data.profile.instagram || 'https://instagram.com/en_dhiaa'}
+              href={data.profile.instagram || 'https://www.instagram.com/eng.d.hm?obrf=b2lpeXJwb3cxZmwz'}
               target="_blank"
               rel="noopener noreferrer"
               className="card"
@@ -256,7 +256,7 @@ export const Contact: React.FC = () => {
                   {locale === 'ar' ? 'حساب الانستجرام' : 'Instagram Profile'}
                 </div>
                 <div style={{ fontSize: '0.98rem', fontWeight: 800, color: 'var(--text-primary)' }} dir="ltr">
-                  @en_dhiaa
+                  @eng.d.hm
                 </div>
                 <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
                   {locale === 'ar' ? 'متابعة الأعمال والتصاميم على Instagram' : 'View design & visual works'}

@@ -4,24 +4,30 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
+import { DesignGallery } from './components/DesignGallery';
 import { Experience } from './components/Experience';
 import { Education } from './components/Education';
 import { SkillsShowcase } from './components/SkillsShowcase';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
-import { CVModal } from './components/CVModal';
+import { CVPage } from './components/CVPage';
 import { AdminPage } from './components/AdminPage';
 
 export const AppContent: React.FC = () => {
-  const [cvOpen, setCvOpen] = useState(false);
-  const [page, setPage] = useState<'home' | 'admin'>(() => {
-    return window.location.hash === '#/admin' || window.location.hash === '#admin' ? 'admin' : 'home';
+  const [page, setPage] = useState<'home' | 'admin' | 'cv'>(() => {
+    const hash = window.location.hash;
+    if (hash === '#/admin' || hash === '#admin') return 'admin';
+    if (hash === '#/cv' || hash === '#cv') return 'cv';
+    return 'home';
   });
 
   useEffect(() => {
     const handleHash = () => {
-      if (window.location.hash === '#/admin' || window.location.hash === '#admin') {
+      const hash = window.location.hash;
+      if (hash === '#/admin' || hash === '#admin') {
         setPage('admin');
+      } else if (hash === '#/cv' || hash === '#cv') {
+        setPage('cv');
       } else {
         setPage('home');
       }
@@ -30,7 +36,7 @@ export const AppContent: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  // When admin page is active, render full standalone page
+  // When admin page is active, render full standalone Admin page
   if (page === 'admin') {
     return (
       <AdminPage 
@@ -42,10 +48,25 @@ export const AppContent: React.FC = () => {
     );
   }
 
+  // When CV page is active, render full dedicated CV document viewer
+  if (page === 'cv') {
+    return (
+      <CVPage 
+        onBack={() => {
+          setPage('home');
+          window.location.hash = '';
+        }} 
+      />
+    );
+  }
+
   return (
     <div className="portfolio-app" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Navbar 
-        onOpenCV={() => setCvOpen(true)} 
+        onOpenCV={() => {
+          setPage('cv');
+          window.location.hash = '#/cv';
+        }} 
         onOpenAdmin={() => {
           setPage('admin');
           window.location.hash = '#/admin';
@@ -53,9 +74,15 @@ export const AppContent: React.FC = () => {
       />
 
       <main style={{ flex: 1 }}>
-        <Hero onOpenCV={() => setCvOpen(true)} />
+        <Hero 
+          onOpenCV={() => {
+            setPage('cv');
+            window.location.hash = '#/cv';
+          }} 
+        />
         <About />
         <Projects />
+        <DesignGallery />
         <Experience />
         <Education />
         <SkillsShowcase />
@@ -63,9 +90,6 @@ export const AppContent: React.FC = () => {
       </main>
 
       <Footer />
-
-      {/* CV Modal */}
-      <CVModal isOpen={cvOpen} onClose={() => setCvOpen(false)} />
     </div>
   );
 };

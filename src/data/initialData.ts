@@ -1,4 +1,5 @@
 import { PortfolioData } from '../types';
+import designsData from './designsData.json';
 
 export const initialPortfolioData: PortfolioData = {
   heroImage: './images/hero-cutout.webp',
@@ -50,8 +51,8 @@ export const initialPortfolioData: PortfolioData = {
     phone: '+967 777117683',
     whatsapp: '967777117683',
     github: 'https://github.com/En-Dhiaa',
-    facebook: 'https://facebook.com/eng.dhiaa.alhmiri',
-    instagram: 'https://instagram.com/en_dhiaa',
+    facebook: 'https://www.facebook.com/share/14tD7vqteaR/',
+    instagram: 'https://www.instagram.com/eng.d.hm?obrf=b2lpeXJwb3cxZmwz',
     defaultFont: 'Cairo',
     stats: {
       yearsExperience: 5,
@@ -727,5 +728,6 @@ export const initialPortfolioData: PortfolioData = {
         { name: 'Customer Communication' }
       ]
     }
-  ]
+  ],
+  designs: designsData as any
 };

@@ -98,6 +98,22 @@ export interface ContactMessage {
   date: string;
 }
 
+export interface DesignItem {
+  id: string;
+  file: string;
+  title: LocalizedString;
+  category: 'posters' | 'branding' | 'uiux';
+  desc: LocalizedString;
+  fullImage: string;
+  thumbImage: string;
+}
+
+export interface SupabaseConfig {
+  url: string;
+  anonKey: string;
+  connected?: boolean;
+}
+
 export interface PortfolioData {
   profile: ProfileInfo;
   projects: ProjectItem[];
@@ -109,4 +125,6 @@ export interface PortfolioData {
   avatarImage: string;
   aboutImage: string;
   themeColor?: string;
+  designs?: DesignItem[];
+  supabaseConfig?: SupabaseConfig;
 }
